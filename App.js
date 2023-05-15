@@ -5,7 +5,7 @@ import { Provider as PaperProvider } from "react-native-paper";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import { useCallback } from "react";
-import LandingScreen from "./src/screens/LandingScreen";
+import SetProfilePictures from "./src/screens/SetProfilePictures";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -31,7 +31,7 @@ export default function App() {
         style="light"
       />
       <SafeAreaView className="flex-1" onLayout={onLayoutRootView}>
-        <LandingScreen />
+        <SetProfilePictures />
       </SafeAreaView>
     </PaperProvider>
   );
