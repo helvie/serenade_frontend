@@ -45,7 +45,7 @@ const ChooseYourSexuality = ({ navigation }) => {
         >
           <View>
             <Header />
-            <View className="my-12 w-4/6 self-center">
+            <View className="mb-12 w-4/6 self-center">
               <InProgressBar progressValue={0.51} />
             </View>
             <View>

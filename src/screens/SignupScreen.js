@@ -87,7 +87,7 @@ const SignupScreen = ({ navigation }) => {
         <View style={globalStyles.container} className="justify-between">
           <View>
             <Header />
-            <View className="my-12 w-4/6 self-center">
+            <View className="mb-12 w-4/6 self-center">
               <InProgressBar progressValue={0.17} />
             </View>
             <View className="mb-7">
