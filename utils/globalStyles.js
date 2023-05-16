@@ -13,6 +13,10 @@ const globalStyles = StyleSheet.create({
 
   errorColor: "#9d0208",
 
+  iconInactiveColor: "#bdbdbd",
+
+  iconActiveColor: "#1d2635",
+
   screen: {
     flex: 1,
     backgroundColor: "#1d2635",
