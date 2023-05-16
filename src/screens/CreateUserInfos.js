@@ -17,7 +17,7 @@ import { TextInput } from "react-native-paper";
 
 import * as Location from "expo-location";
 
-const CreateUserInfos = () => {
+const CreateUserInfos = ({ navigation }) => {
   const [name, setName] = useState("");
   const [imaginaryName, setImaginaryName] = useState("");
   const [dayOfBirth, setDayOfBirth] = useState("");
@@ -144,6 +144,7 @@ const CreateUserInfos = () => {
     // call the function to reset input fields
     resetInputFields();
     setButtonDisabled(false);
+    navigation.navigate("SetProfilePictures");
   };
 
   return (

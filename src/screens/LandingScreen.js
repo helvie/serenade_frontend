@@ -3,9 +3,9 @@ import React from "react";
 import globalStyles from "../../utils/globalStyles";
 import MainButton from "../components/MainButton";
 
-const LandingScreen = () => {
+const LandingScreen = ({ navigation }) => {
   const handleSubscription = () => {
-    console.log("subscription");
+    navigation.navigate("SignupScreen");
   };
   const handleLogin = () => {
     console.log("login");

@@ -14,7 +14,7 @@ import { RadioButton, Snackbar } from "react-native-paper";
 import RadioButtonItem from "../components/RadioButtonItem";
 import { isInputEmpty } from "../../utils/validateInputsContent";
 
-const ChooseYourSexuality = () => {
+const ChooseYourSexuality = ({ navigation }) => {
   const [inputValue, setInputValue] = useState("");
   //Used to set the snack bar visibility
   const [isSnackBarVisible, setIsSnackBarVisible] = useState(false);
@@ -33,6 +33,7 @@ const ChooseYourSexuality = () => {
       return;
     }
     console.log(inputValue);
+    navigation.navigate("ChooseRelationshipStatus");
   };
   return (
     <KeyboardAvoidingView style={globalStyles.screen}>

@@ -13,7 +13,7 @@ import { RadioButton, Snackbar } from "react-native-paper";
 import RadioButtonItem from "../components/RadioButtonItem";
 import { isInputEmpty } from "../../utils/validateInputsContent";
 
-const ChooseRelationshipStatus = () => {
+const ChooseRelationshipStatus = ({ navigation }) => {
   const [inputValue, setInputValue] = useState("");
   //Used to set the snack bar visibility
   const [isSnackBarVisible, setIsSnackBarVisible] = useState(false);
@@ -33,6 +33,7 @@ const ChooseRelationshipStatus = () => {
       return;
     }
     console.log(inputValue);
+    navigation.navigate("CreateUserInfos");
   };
   return (
     <KeyboardAvoidingView style={globalStyles.screen}>

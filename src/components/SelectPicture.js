@@ -4,7 +4,7 @@ import globalStyles from "../../utils/globalStyles";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-const SelectPicture = ({ size, getUserPictures, filterUserPictures }) => {
+const SelectPicture = ({ size, getUserPictures, removeUserPicture }) => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const pickImage = async () => {
@@ -52,7 +52,7 @@ const SelectPicture = ({ size, getUserPictures, filterUserPictures }) => {
         <TouchableOpacity
           onPress={() => {
             setSelectedImage(null);
-            filterUserPictures(selectedImage);
+            removeUserPicture(selectedImage);
           }}
         >
           <Ionicons

@@ -14,7 +14,7 @@ import { Snackbar } from "react-native-paper";
 import InProgressBar from "../components/InProgressBar";
 import SelectPicture from "../components/SelectPicture";
 
-const setProfilePicture = () => {
+const SetProfilePicture = ({ navigation }) => {
   const [userPictures, setUserPictures] = useState([]);
 
   //Used to track user picture in SelectPicture component via inverse data flow
@@ -23,7 +23,7 @@ const setProfilePicture = () => {
   };
 
   //Used to track user picture in SelectPicture component via inverse data flow
-  const filterUserPictures = (value) => {
+  const removeUserPicture = (value) => {
     setUserPictures(userPictures.filter((item) => item !== value));
   };
   //Used to set the snack bar visibility
@@ -45,6 +45,7 @@ const setProfilePicture = () => {
     }
     //if Validation are passed then we can send the user to the next screen
     console.log(userPictures);
+    navigation.navigate("TabNavigator");
   };
 
   //Initialize the 6 selected pictures component to display
@@ -60,7 +61,7 @@ const setProfilePicture = () => {
       >
         <SelectPicture
           getUserPictures={getUserPictures}
-          filterUserPictures={filterUserPictures}
+          removeUserPicture={removeUserPicture}
         />
       </View>
     );
@@ -70,7 +71,7 @@ const setProfilePicture = () => {
     <KeyboardAvoidingView style={globalStyles.screen}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={globalStyles.container} className="justify-between">
-          <View>
+          <ScrollView>
             <View className="my-12 w-4/6 self-center">
               <InProgressBar progressValue={1} />
             </View>
@@ -88,8 +89,9 @@ const setProfilePicture = () => {
               numColumns={3}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
+              scrollEnabled={false}
             />
-          </View>
+          </ScrollView>
           <View>
             {errorMessage && (
               <View>
@@ -123,4 +125,4 @@ const setProfilePicture = () => {
   );
 };
 
-export default setProfilePicture;
+export default SetProfilePicture;

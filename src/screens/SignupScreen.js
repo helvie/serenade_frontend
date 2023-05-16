@@ -14,7 +14,7 @@ import MainButton from "../components/MainButton";
 import { Snackbar } from "react-native-paper";
 import { isEmailValid, isInputEmpty } from "../../utils/validateInputsContent";
 
-const SignupScreen = () => {
+const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [emailConfirmation, setEmailConfirmation] = useState("");
   const [password, setPassword] = useState("");
@@ -75,6 +75,7 @@ const SignupScreen = () => {
     }
     //If the email and password are valid, this function will be called
     console.log({ email, password });
+    navigation.navigate("ChooseYourGender");
     // call the function to reset input fields
     resetInputFields();
   };
