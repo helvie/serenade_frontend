@@ -6,7 +6,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import { useCallback } from "react";
 import LandingScreen from "./src/screens/LandingScreen";
-
+import ProfileScreen from "./src/screens/ProfileScreen";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -30,8 +30,8 @@ export default function App() {
         backgroundColor={globalStyles.appBackgroundColor}
         style="light"
       />
-      <SafeAreaView className="flex-1" onLayout={onLayoutRootView}>
-        <LandingScreen />
+      <SafeAreaView className="flex-1" onLayout={onLayoutRootView} style={{backgroundColor: '#1d2635'}}>
+        <ProfileScreen />
       </SafeAreaView>
     </PaperProvider>
   );
