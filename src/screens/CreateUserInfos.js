@@ -15,7 +15,7 @@ import { isInputEmpty } from "../../utils/validateInputsContent";
 import InProgressBar from "../components/InProgressBar";
 import { TextInput } from "react-native-paper";
 
-import * as Location from "expo-location";
+//import * as Location from "expo-location";
 
 const CreateUserInfos = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -59,14 +59,6 @@ const CreateUserInfos = ({ navigation }) => {
 
   //Used for set error message in the snack bar
   const [errorMessage, setErrorMessage] = useState("");
-
-  const getUserLocation = async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-
-    if (status === "granted") {
-      return await Location.getCurrentPositionAsync({});
-    }
-  };
 
   const handlePress = async () => {
     //Some validations to make sure that the inputs are not empty and valid
@@ -120,14 +112,22 @@ const CreateUserInfos = ({ navigation }) => {
       setButtonDisabled(false);
       return;
     }
+    /**********TO DO LATER MAYBE IN USER SEARCH SCREEN********/
+    // const getUserLocation = async () => {
+    //   const { status } = await Location.requestForegroundPermissionsAsync();
 
-    const location = await getUserLocation();
-    if (!location) {
-      setIsSnackBarVisible(true);
-      setErrorMessage("Please enable location services");
-      setButtonDisabled(false);
-      return;
-    }
+    //   if (status === "granted") {
+    //     return await Location.getCurrentPositionAsync({});
+    //   }
+    // };
+    // const location = await getUserLocation();
+    // if (!location) {
+    //   setIsSnackBarVisible(true);
+    //   setErrorMessage("Please enable location services");
+    //   setButtonDisabled(false);
+    //   return;
+    // }
+    /***********************************************************/
 
     const userDateOfBirth = new Date(yearOfBirth, monthOfBirth - 1, dayOfBirth);
     //If all the inputs are valid, this function will be called
@@ -136,10 +136,6 @@ const CreateUserInfos = ({ navigation }) => {
       imaginaryName,
       cityName,
       userDateOfBirth,
-      userLocation: {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      },
     });
     // call the function to reset input fields
     resetInputFields();

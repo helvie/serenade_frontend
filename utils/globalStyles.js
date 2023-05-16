@@ -43,6 +43,13 @@ const globalStyles = StyleSheet.create({
     color: "#fff",
   },
 
+  mainTextBlack: {
+    fontSize: 17,
+    lineHeight: 25,
+    fontFamily: "LabGrostesque-Regular",
+    color: "#000",
+  },
+
   errorText: {
     fontSize: 17,
     lineHeight: 25,
