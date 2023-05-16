@@ -1,22 +1,20 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import globalStyles from "../../utils/globalStyles";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { FontAwesome } from "@expo/vector-icons";
 import { Divider } from "react-native-paper";
-import Chips from "../components/Chips";
-import { ScrollView } from 'react-native';
+import Pill from "../components/Pill";
+import { ScrollView } from "react-native";
+import { Feather } from "@expo/vector-icons";
+import Header from "../components/Header";
 
 const ProfileScreen = () => {
   return (
     <ScrollView>
-    <View style={globalStyles.screen}> 
-      <View style={globalStyles.container}>
-        {/* profile picture and settings icon formatting */}
-          <View style={styles.font}>
-          <TouchableOpacity>
-          <FontAwesome name="angle-left" size={25} color="white" />
-          </TouchableOpacity>
-          </View>
+      <View style={globalStyles.screen}>
+        <View style={globalStyles.container}>
+          {/* profile picture and settings icon formatting */}
+          <Header />
           <View style={styles.element}>
             <View style={styles.img}>
               <Image
@@ -24,96 +22,190 @@ const ProfileScreen = () => {
                 style={styles.image}
               />
               <View style={styles.textLoc}>
-              <Text
-                style={[
-                  globalStyles.mainText
-                ]}
-              >
-                Manu
-              </Text>
-              <Text style={styles.textLocation}>
-                {" "}
-                <FontAwesome name="map-marker" size={13} color="white" /> Paris
-              </Text>
-            </View>
+                <Text style={[globalStyles.mainText]}>Manu</Text>
+                <Text style={styles.textLocation}>
+                  {" "}
+                  <FontAwesome name="map-marker" size={13} color="white" />{" "}
+                  Paris
+                </Text>
+              </View>
             </View>
             <View style={styles.iconSet}>
-            <TouchableOpacity>
-              <FontAwesome
-                name="gear"
-                size={30}
-                color="white"
-                style={{color: globalStyles.primaryColor}}
-              />
-            </TouchableOpacity>
+              <TouchableOpacity>
+                <FontAwesome name="pencil-square-o" size={30} color="white" />
+              </TouchableOpacity>
             </View>
+          </View>
+          {/* formatting of profile cards */}
+          <Text
+            style={[globalStyles.titleText, { marginTop: 10, marginBottom: 5 }]}
+          >
+            About you
+          </Text>
+          <View style={styles.ChipContainer}>
+            <Pill content="25yo" />
+            <Pill content="Man" />
+            <Pill content="Football" />
+            <Pill content="5'11" />
+            <Pill content="French" />
+          </View>
         </View>
-        {/* formatting of profile cards */}
-        <Text style={[globalStyles.mainText, {marginTop: 10, marginBottom: 5,}]}>About you</Text>
-        <View style={styles.ChipContainer}>
-          <Chips content="25yo"/>
-          <Chips content="Man"/>
-          <Chips content="Football"/>
-          <Chips content="5'11"/>
-          <Chips content="French"/>
-          <Chips content="Non-smoker"/>
+        {/* Divider for section */}
+        <Divider
+          style={{ backgroundColor: "white", height: 1, width: "100%" }}
+        />
+        {/* Description of user */}
+        <View style={styles.desc}>
+          <Text style={[globalStyles.titleText, { justifyContent: "center" }]}>
+            What people need to know about you{" "}
+          </Text>
+          <Text style={[globalStyles.mainText, { marginTop: 10 }]}>
+            Fun-loving and adventurous woman seeking a partner in crime to
+            explore the world with.
+          </Text>
+        </View>
+        {/* Divider for section */}
+        <Divider
+          style={{ backgroundColor: "white", height: 1, width: "100%" }}
+        />
+        <View style={styles.desc}>
+          <TouchableOpacity>
+            <View style={styles.element}>
+              <View style={styles.textLink}>
+                <Feather
+                  name="link"
+                  size={24}
+                  color="white"
+                  style={{ marginRight: 4 }}
+                />
+                <Text style={[globalStyles.mainText, {}]}>Add a partner</Text>
+              </View>
+              <FontAwesome name="angle-right" size={25} color="white" />
+            </View>
+          </TouchableOpacity>
+          <Text
+            style={[
+              globalStyles.titleText,
+              { marginTop: 15, marginBottom: 15 },
+            ]}
+          >
+            Your relationships:
+          </Text>
+          <TouchableOpacity className="mb-4">
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Image
+                source={require("../../assets/Profile.jpg")}
+                style={styles.imgProfile}
+                className="rounded-full mr-2"
+              />
+              <Text style={[globalStyles.mainText, { marginRight: 10 }]}>
+                Manu
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity className="mb-4">
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Image
+                source={require("../../assets/Profile.jpg")}
+                style={styles.imgProfile}
+                className="rounded-full mr-2"
+              />
+              <Text style={[globalStyles.mainText, { marginRight: 10 }]}>
+                Manu
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity className="mb-4">
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Image
+                source={require("../../assets/Profile.jpg")}
+                style={styles.imgProfile}
+                className="rounded-full mr-2"
+              />
+              <Text style={[globalStyles.mainText, { marginRight: 10 }]}>
+                Manu
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <Divider
+          style={{ backgroundColor: "white", height: 2, width: "100%" }}
+        />
+        {/* photos of the users */}
+        <View style={styles.desc}>
+          <Text style={[globalStyles.titleText, { marginBottom: 15 }]}>
+            Your pictures
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+
+              flexWrap: "wrap",
+            }}
+          >
+            <Image
+              source={require("../../assets/Profile.jpg")}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 10,
+                marginBottom: 10,
+                marginRight: 10,
+              }}
+            />
+            <Image
+              source={require("../../assets/Profile.jpg")}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 10,
+                marginBottom: 10,
+                marginRight: 10,
+              }}
+            />
+            <Image
+              source={require("../../assets/Profile.jpg")}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 10,
+                marginBottom: 10,
+                marginRight: 10,
+              }}
+            />
+            <Image
+              source={require("../../assets/Profile.jpg")}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 10,
+                marginBottom: 10,
+                marginRight: 10,
+              }}
+            />
+            <Image
+              source={require("../../assets/Profile.jpg")}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 10,
+                marginBottom: 10,
+                marginRight: 10,
+              }}
+            />
+            <Image
+              source={require("../../assets/Profile.jpg")}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 10,
+                marginBottom: 10,
+                marginRight: 10,
+              }}
+            />
+          </View>
         </View>
       </View>
-      {/* Divider for section */}
-      <Divider style={{ backgroundColor: 'white', height: 1, width: '100%' }}/>
-      {/* Description of user */}
-      <View style={styles.desc}>
-        <Text style={[globalStyles.titleText, {justifyContent: 'center'}]}>
-          What people need to know about you{" "}
-        </Text>
-        <Text style={[globalStyles.mainText, { marginTop: 10 }]}>
-          Fun-loving and adventurous woman seeking a partner in crime to explore
-          the world with.
-        </Text>
-      </View>
-      {/* Divider for section */}
-      <Divider style={{ backgroundColor: 'white', height: 1, width: '100%' }}/>
-      <View style={styles.desc}>
-        <TouchableOpacity>
-        <View style={styles.element}>
-          <View style={styles.textLink}>
-          <FontAwesome
-            name="link"
-            size={25}
-            color="white"
-            style={{ marginRight: 10 }}
-          />
-          <Text style={[globalStyles.mainText, {}]}>Add a partner</Text>
-          </View>
-          <FontAwesome name="angle-right" size={25} color="white" />
-          </View>
-          </TouchableOpacity>
-            <Text style={[globalStyles.titleText, {marginTop: 15, marginBottom: 15,}]}>Your relationships:</Text>
-          <TouchableOpacity>
-          <View style={{flexDirection: 'row'}}>
-            <Image source={require('../../assets/Profile.jpg')} style={styles.imgProfile}/>
-              <Text style={[globalStyles.mainText, {textAlign: 'center',alignSelf: 'center', marginRight: 10,}]}>Manu</Text>
-          </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-          <View style={{flexDirection: 'row'}}>
-            <Image source={require('../../assets/Profile.jpg')} style={styles.imgProfile}/>
-              <Text style={[globalStyles.mainText, {textAlign: 'center',alignSelf: 'center', marginRight: 10,}]}>Numa7</Text>
-          </View>
-          </TouchableOpacity>
-      </View> 
-      <Divider style={{ backgroundColor: 'white', height: 2, width: '100%' }}/>
-      {/* photos of the users */}
-      <View style={styles.desc}>
-      <Text style={[globalStyles.titleText, {marginBottom: 15,}]}>Your pictures</Text>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap'}}>
-        <Image source={require('../../assets/Profile.jpg')} style={{width: 100, height: 100, borderRadius: 10, marginBottom: 10}}/>
-        <Image source={require('../../assets/Profile.jpg')} style={{width: 100, height: 100, borderRadius: 10,}}/>
-        <Image source={require('../../assets/Profile.jpg')} style={{width: 100, height: 100, borderRadius: 10,}}/>
-        <Image source={require('../../assets/Profile.jpg')} style={{width: 100, height: 100, borderRadius: 10,}}/>
-      </View>
-      </View>
-    </View>
     </ScrollView>
   );
 };
@@ -121,16 +213,13 @@ const ProfileScreen = () => {
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
-  font: {
-    marginBottom: 20,
-  },
   element: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
   img: {
     flexDirection: "row",
-    alignItems: 'center',
+    alignItems: "center",
   },
   image: {
     width: 70,
@@ -139,24 +228,21 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   imgProfile: {
-    width: 60, 
-    height: 60, 
-    borderRadius: 50, 
-    marginRight: 10,
-    marginBottom: 10,
+    width: 40,
+    height: 40,
   },
   textLocation: {
     color: "white",
     fontSize: 13,
   },
   iconSet: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   ChipContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    textAlign: 'center',
+    textAlign: "center",
   },
   section: {
     flexDirection: "row",
@@ -169,6 +255,6 @@ const styles = StyleSheet.create({
     padding: 25,
   },
   textLink: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
 });
