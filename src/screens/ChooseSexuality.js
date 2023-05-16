@@ -13,6 +13,7 @@ import MainButton from "../components/MainButton";
 import { RadioButton, Snackbar } from "react-native-paper";
 import RadioButtonItem from "../components/RadioButtonItem";
 import { isInputEmpty } from "../../utils/validateInputsContent";
+import Header from "../components/Header";
 
 const ChooseYourSexuality = ({ navigation }) => {
   const [inputValue, setInputValue] = useState("");
@@ -43,6 +44,7 @@ const ChooseYourSexuality = ({ navigation }) => {
           contentContainerStyle={{ justifyContent: "space-between" }}
         >
           <View>
+            <Header />
             <View className="my-12 w-4/6 self-center">
               <InProgressBar progressValue={0.51} />
             </View>

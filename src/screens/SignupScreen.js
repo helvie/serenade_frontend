@@ -13,6 +13,7 @@ import PasswordInput from "../components/PasswordInput";
 import MainButton from "../components/MainButton";
 import { Snackbar } from "react-native-paper";
 import { isEmailValid, isInputEmpty } from "../../utils/validateInputsContent";
+import Header from "../components/Header";
 
 const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -85,6 +86,7 @@ const SignupScreen = ({ navigation }) => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={globalStyles.container} className="justify-between">
           <View>
+            <Header />
             <View className="my-12 w-4/6 self-center">
               <InProgressBar progressValue={0.17} />
             </View>

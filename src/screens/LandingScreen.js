@@ -8,7 +8,7 @@ const LandingScreen = ({ navigation }) => {
     navigation.navigate("SignupScreen");
   };
   const handleLogin = () => {
-    console.log("login");
+    navigation.navigate("LoginScreen");
   };
   return (
     <View style={globalStyles.screen}>

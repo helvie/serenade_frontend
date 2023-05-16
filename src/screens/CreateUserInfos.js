@@ -14,6 +14,7 @@ import { Snackbar } from "react-native-paper";
 import { isInputEmpty } from "../../utils/validateInputsContent";
 import InProgressBar from "../components/InProgressBar";
 import { TextInput } from "react-native-paper";
+import Header from "../components/Header";
 
 //import * as Location from "expo-location";
 
@@ -149,6 +150,7 @@ const CreateUserInfos = ({ navigation }) => {
         <ScrollView>
           <View style={globalStyles.container} className="justify-between">
             <View>
+              <Header />
               <View className="my-12 w-4/6 self-center">
                 <InProgressBar progressValue={0.85} />
               </View>

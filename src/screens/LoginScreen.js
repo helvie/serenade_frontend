@@ -12,6 +12,7 @@ import PasswordInput from "../components/PasswordInput";
 import MainButton from "../components/MainButton";
 import { Snackbar } from "react-native-paper";
 import { isEmailValid, isInputEmpty } from "../../utils/validateInputsContent";
+import Header from "../components/Header";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -65,8 +66,9 @@ const LoginScreen = () => {
     <KeyboardAvoidingView style={globalStyles.screen}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={globalStyles.container} className="justify-between">
-          <View className="mt-24">
-            <View className="mb-7">
+          <View>
+            <Header />
+            <View className="my-7">
               <MainTextInput
                 title="Enter your email address"
                 placeholder="janedoe@gmail.com"

@@ -12,6 +12,7 @@ import MainButton from "../components/MainButton";
 import { RadioButton, Snackbar } from "react-native-paper";
 import RadioButtonItem from "../components/RadioButtonItem";
 import { isInputEmpty } from "../../utils/validateInputsContent";
+import Header from "../components/Header";
 
 const ChooseYourGender = ({ navigation }) => {
   const [inputValue, setInputValue] = useState("");
@@ -40,6 +41,7 @@ const ChooseYourGender = ({ navigation }) => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={globalStyles.container} className="justify-between">
           <View>
+            <Header />
             <View className="my-12 w-4/6 self-center">
               <InProgressBar progressValue={0.34} />
             </View>

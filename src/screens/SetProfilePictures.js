@@ -13,6 +13,7 @@ import MainButton from "../components/MainButton";
 import { Snackbar } from "react-native-paper";
 import InProgressBar from "../components/InProgressBar";
 import SelectPicture from "../components/SelectPicture";
+import Header from "../components/Header";
 
 const SetProfilePicture = ({ navigation }) => {
   const [userPictures, setUserPictures] = useState([]);
@@ -72,6 +73,7 @@ const SetProfilePicture = ({ navigation }) => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={globalStyles.container} className="justify-between">
           <ScrollView>
+            <Header />
             <View className="my-12 w-4/6 self-center">
               <InProgressBar progressValue={1} />
             </View>
