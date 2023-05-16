@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MessagesScreen from "../src/screens/MessagesScreen";
 import HomeScreen from "../src/screens/HomeScreen";
-import MatchScreen from "../src/screens/MatchScreen";
+import MatchScreen from "../src/screens/MatchesScreen";
 import React from "react";
 import { Foundation } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";

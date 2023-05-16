@@ -5,7 +5,7 @@ import globalStyles from "../../utils/globalStyles";
 import SwitchSelector from 'react-native-switch-selector';
 import CardProfilContainer from "../components/CardProfile"
 
-const UserlikesScreen = () => {
+const MatchesScreen = () => {
   const options = [
     { label: 'My Matches', value: '1' },
     { label: 'Who likes me', value: '2' }
@@ -137,4 +137,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default UserlikesScreen;
+export default MatchesScreen;
