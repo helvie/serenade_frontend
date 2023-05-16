@@ -8,6 +8,8 @@ import { useCallback } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import StackNavigator from "./navigation/StackNavigator";
 
+import LandingScreen from "./src/screens/LandingScreen";
+import ProfileScreen from "./src/screens/ProfileScreen";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -31,10 +33,15 @@ export default function App() {
         backgroundColor={globalStyles.appBackgroundColor}
         style="light"
       />
-      <SafeAreaView className="flex-1" onLayout={onLayoutRootView}>
-        <NavigationContainer>
+      <SafeAreaView
+        className="flex-1"
+        onLayout={onLayoutRootView}
+        style={{ backgroundColor: "#1d2635" }}
+      >
+        <ProfileScreen />
+        {/* <NavigationContainer>
           <StackNavigator />
-        </NavigationContainer>
+        </NavigationContainer> */}
       </SafeAreaView>
     </PaperProvider>
   );
