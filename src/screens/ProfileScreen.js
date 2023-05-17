@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import globalStyles from "../../utils/globalStyles";
 import { FontAwesome } from "@expo/vector-icons";
 import { Divider } from "react-native-paper";
@@ -7,10 +7,20 @@ import Pill from "../components/Pill";
 import { ScrollView } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import Header from "../components/Header";
+import LinkAPartner from "./LinkAPartner";
+import UserPartner from "../components/UserPartner";
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ navigation }) => {
+  const [openLinkPartner, setOpenLinkPartner] = useState(false);
+  const closeLinkPartner = () => {
+    setOpenLinkPartner(false);
+  };
   return (
     <ScrollView>
+      <LinkAPartner
+        openLinkPartner={openLinkPartner}
+        closeLinkPartner={closeLinkPartner}
+      />
       <View style={globalStyles.screen}>
         <View style={globalStyles.container}>
           {/* profile picture and settings icon formatting */}
@@ -69,7 +79,11 @@ const ProfileScreen = () => {
           style={{ backgroundColor: "white", height: 1, width: "100%" }}
         />
         <View style={styles.desc}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setOpenLinkPartner(true);
+            }}
+          >
             <View style={styles.element}>
               <View style={styles.textLink}>
                 <Feather
@@ -91,42 +105,14 @@ const ProfileScreen = () => {
           >
             Your relationships:
           </Text>
-          <TouchableOpacity className="mb-4">
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Image
-                source={require("../../assets/Profile.jpg")}
-                style={styles.imgProfile}
-                className="rounded-full mr-2"
-              />
-              <Text style={[globalStyles.mainText, { marginRight: 10 }]}>
-                Manu
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity className="mb-4">
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Image
-                source={require("../../assets/Profile.jpg")}
-                style={styles.imgProfile}
-                className="rounded-full mr-2"
-              />
-              <Text style={[globalStyles.mainText, { marginRight: 10 }]}>
-                Manu
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity className="mb-4">
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Image
-                source={require("../../assets/Profile.jpg")}
-                style={styles.imgProfile}
-                className="rounded-full mr-2"
-              />
-              <Text style={[globalStyles.mainText, { marginRight: 10 }]}>
-                Manu
-              </Text>
-            </View>
-          </TouchableOpacity>
+          <UserPartner
+            name="Manu"
+            picture="https://images.pexels.com/photos/1642228/pexels-photo-1642228.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          />
+          <UserPartner
+            name="Manu"
+            picture="https://images.pexels.com/photos/1642228/pexels-photo-1642228.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          />
         </View>
         <Divider
           style={{ backgroundColor: "white", height: 2, width: "100%" }}
@@ -227,10 +213,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginRight: 10,
   },
-  imgProfile: {
-    width: 40,
-    height: 40,
-  },
+
   textLocation: {
     color: "white",
     fontSize: 13,

@@ -9,6 +9,7 @@ import ChooseRelationshipStatus from "../src/screens/ChooseRelationshipStatus";
 import CreateUserInfos from "../src/screens/CreateUserInfos";
 import SetProfilePictures from "../src/screens/SetProfilePictures";
 import TabNavigator from "./TabNavigator";
+import ProfileScreen from "../src/screens/ProfileScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,7 +21,7 @@ const StackNavigator = () => {
       }}
     >
       <Stack.Group>
-        <Stack.Screen name="LandingScreen" component={LandingScreen} />
+        {/* <Stack.Screen name="LandingScreen" component={LandingScreen} />
         <Stack.Screen name="SignupScreen" component={SignupScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="ChooseYourGender" component={ChooseYourGender} />
@@ -33,8 +34,9 @@ const StackNavigator = () => {
         <Stack.Screen
           name="SetProfilePictures"
           component={SetProfilePictures}
-        />
-        <Stack.Screen name="TabNavigator" component={TabNavigator} />
+        /> 
+        <Stack.Screen name="TabNavigator" component={TabNavigator} /> */}
+        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
