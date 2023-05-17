@@ -29,19 +29,20 @@ const SetProfilePicture = ({ navigation }) => {
   };
   //Used to set the snack bar visibility
   const [isSnackBarVisible, setIsSnackBarVisible] = useState(false);
+
+  //Used for set error message in the snack bar
+  const [errorMessage, setErrorMessage] = useState("");
+
   const dismissSnackBar = () => {
     setIsSnackBarVisible(false);
     setErrorMessage("");
   };
 
-  //Used for set error message in the snack bar
-  const [errorMessage, setErrorMessage] = useState("");
-
   const handleSubmit = () => {
     //Some validation to make sure the user has selected at least 3 pictures
-    if (userPictures.length < 3) {
+    if (userPictures.length < 2) {
       setIsSnackBarVisible(true);
-      setErrorMessage("Please select at least 3 pictures");
+      setErrorMessage("Please select at least 2 pictures");
       return;
     }
     //if Validation are passed then we can send the user to the next screen
@@ -56,7 +57,7 @@ const SetProfilePicture = ({ navigation }) => {
       <View
         style={{
           width: "33.3%",
-          height: 180,
+          height: 120,
           justifyContent: "center",
         }}
       >
@@ -80,7 +81,7 @@ const SetProfilePicture = ({ navigation }) => {
             <Text style={globalStyles.titleText} className="mb-2">
               Show yourself in your best light
             </Text>
-            <Text style={globalStyles.mainText} className="mb-10">
+            <Text style={globalStyles.textSmall} className="mb-10">
               No ulterior motives - let's keep it romantic, the world needs it.
               Nudity, lingerie or shirtless selfies will get you blocked.
             </Text>

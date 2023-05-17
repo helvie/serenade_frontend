@@ -9,7 +9,7 @@ const PasswordInput = ({ title, placeholder, getInputValue, value }) => {
       <Text style={globalStyles.titleText}>{title}</Text>
       <TextInput
         className="bg-transparent"
-        style={[globalStyles.titleText, { paddingHorizontal: 0 }]}
+        style={[globalStyles.mainText, { paddingHorizontal: 0 }]}
         secureTextEntry={true}
         theme={{ colors: { onSurfaceVariant: globalStyles.placeholderColor } }}
         mode="flat"

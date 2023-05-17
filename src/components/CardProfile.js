@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import React from "react";
 import globalStyles from "../../utils/globalStyles";
@@ -11,7 +11,7 @@ export default function CardProfilContainer({
   picture,
 }) {
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity style={styles.cardContainer}>
       <Image
         source={{
           uri: picture,
@@ -40,7 +40,7 @@ export default function CardProfilContainer({
           </Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

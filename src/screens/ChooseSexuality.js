@@ -66,7 +66,7 @@ const ChooseYourSexuality = ({ navigation }) => {
               </RadioButton.Group>
             </View>
           </View>
-          <View className="my-10">
+          <View className="mt-2">
             {errorMessage && (
               <View>
                 <Snackbar

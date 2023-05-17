@@ -13,10 +13,9 @@ import MainButton from "../components/MainButton";
 import { Snackbar } from "react-native-paper";
 import { isInputEmpty } from "../../utils/validateInputsContent";
 import InProgressBar from "../components/InProgressBar";
-import { TextInput } from "react-native-paper";
 import Header from "../components/Header";
-
-//import * as Location from "expo-location";
+import ChooseBirthDate from "../components/ChooseBirthDate";
+import moment from "moment";
 
 const CreateUserInfos = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -25,7 +24,6 @@ const CreateUserInfos = ({ navigation }) => {
   const [monthOfBirth, setMonthOfBirth] = useState("");
   const [yearOfBirth, setYearOfBirth] = useState("");
   const [cityName, setCityName] = useState("");
-  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   //This function is used to reset the input fields after form submission
   const resetInputFields = () => {
@@ -50,20 +48,29 @@ const CreateUserInfos = ({ navigation }) => {
   const getCityName = (value) => {
     setCityName(value);
   };
-
-  //Used to set the snack bar visibility
-  const [isSnackBarVisible, setIsSnackBarVisible] = useState(false);
-  const dismissSnackBar = () => {
-    setIsSnackBarVisible(false);
-    setErrorMessage("");
+  const getDayOfBirth = (value) => {
+    setDayOfBirth(value);
+  };
+  const getMonthOfBirth = (value) => {
+    setMonthOfBirth(value);
+  };
+  const getYearOfBirth = (value) => {
+    setYearOfBirth(value);
   };
 
   //Used for set error message in the snack bar
   const [errorMessage, setErrorMessage] = useState("");
 
+  //Used to set the snack bar visibility
+  const [isSnackBarVisible, setIsSnackBarVisible] = useState(false);
+
+  const dismissSnackBar = () => {
+    setIsSnackBarVisible(false);
+    setErrorMessage("");
+  };
+
   const handlePress = async () => {
     //Some validations to make sure that the inputs are not empty and valid
-    setButtonDisabled(true);
     if (
       isInputEmpty(name) ||
       isInputEmpty(imaginaryName) ||
@@ -74,7 +81,6 @@ const CreateUserInfos = ({ navigation }) => {
     ) {
       setIsSnackBarVisible(true);
       setErrorMessage("All the fields are required");
-      setButtonDisabled(false);
       return;
     }
 
@@ -86,7 +92,6 @@ const CreateUserInfos = ({ navigation }) => {
     ) {
       setIsSnackBarVisible(true);
       setErrorMessage("Something seems wrong with your birthday");
-      setButtonDisabled(false);
       return;
     }
 
@@ -98,7 +103,6 @@ const CreateUserInfos = ({ navigation }) => {
     ) {
       setIsSnackBarVisible(true);
       setErrorMessage("Something seems wrong with your month of birth");
-      setButtonDisabled(false);
       return;
     }
 
@@ -109,28 +113,15 @@ const CreateUserInfos = ({ navigation }) => {
       typeof Number(yearOfBirth) !== "number"
     ) {
       setIsSnackBarVisible(true);
-      setErrorMessage("Your age does not meet our requirements");
-      setButtonDisabled(false);
+      setErrorMessage("Your year of birth does not meet our requirements");
       return;
     }
-    /**********TO DO LATER MAYBE IN USER SEARCH SCREEN********/
-    // const getUserLocation = async () => {
-    //   const { status } = await Location.requestForegroundPermissionsAsync();
 
-    //   if (status === "granted") {
-    //     return await Location.getCurrentPositionAsync({});
-    //   }
-    // };
-    // const location = await getUserLocation();
-    // if (!location) {
-    //   setIsSnackBarVisible(true);
-    //   setErrorMessage("Please enable location services");
-    //   setButtonDisabled(false);
-    //   return;
-    // }
-    /***********************************************************/
+    const userDateOfBirth = moment()
+      .year(yearOfBirth)
+      .month(monthOfBirth - 1)
+      .date(dayOfBirth);
 
-    const userDateOfBirth = new Date(yearOfBirth, monthOfBirth - 1, dayOfBirth);
     //If all the inputs are valid, this function will be called
     console.log({
       name,
@@ -140,7 +131,6 @@ const CreateUserInfos = ({ navigation }) => {
     });
     // call the function to reset input fields
     resetInputFields();
-    setButtonDisabled(false);
     navigation.navigate("SetProfilePictures");
   };
 
@@ -148,7 +138,7 @@ const CreateUserInfos = ({ navigation }) => {
     <KeyboardAvoidingView style={globalStyles.screen}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
-          <View style={globalStyles.container} className="justify-between">
+          <View className="justify-between mt-5">
             <View>
               <Header />
               <View className="mb-12 w-4/6 self-center">
@@ -157,8 +147,7 @@ const CreateUserInfos = ({ navigation }) => {
               <View className="mb-7">
                 <MainTextInput
                   title="What is your name ?"
-                  subtitle="Be careful, you won’t be able to change your 
-                name"
+                  subtitle="Be careful, you won’t be able to change your name"
                   placeholder="Jane"
                   //Send the getName function as prop to get the name value in the component via inverse data flow
                   getInputValue={getName}
@@ -178,70 +167,14 @@ const CreateUserInfos = ({ navigation }) => {
                   value={imaginaryName}
                 />
               </View>
-              <View className="mb-7">
-                <Text style={globalStyles.titleText}>
-                  What is your birth date ?
-                </Text>
-                <View className="justify-between flex-row">
-                  <TextInput
-                    className="bg-transparent w-3/12"
-                    keyboardType="numeric"
-                    label="Day"
-                    maxLength={2}
-                    style={[globalStyles.titleText, { paddingHorizontal: 0 }]}
-                    theme={{
-                      colors: {
-                        onSurfaceVariant: globalStyles.placeholderColor,
-                      },
-                    }}
-                    mode="flat"
-                    placeholder="02"
-                    underlineColor={globalStyles.whiteColor}
-                    activeUnderlineColor={globalStyles.primaryColor}
-                    textColor={globalStyles.whiteColor}
-                    onChangeText={(text) => setDayOfBirth(text)}
-                    value={dayOfBirth}
-                  />
-                  <TextInput
-                    className="bg-transparent w-3/12"
-                    keyboardType="numeric"
-                    label="Month"
-                    maxLength={2}
-                    style={[globalStyles.titleText, { paddingHorizontal: 0 }]}
-                    theme={{
-                      colors: {
-                        onSurfaceVariant: globalStyles.placeholderColor,
-                      },
-                    }}
-                    mode="flat"
-                    placeholder="09"
-                    underlineColor={globalStyles.whiteColor}
-                    activeUnderlineColor={globalStyles.primaryColor}
-                    textColor={globalStyles.whiteColor}
-                    onChangeText={(text) => setMonthOfBirth(text)}
-                    value={monthOfBirth}
-                  />
-                  <TextInput
-                    className="bg-transparent w-3/12"
-                    keyboardType="numeric"
-                    label="Year"
-                    maxLength={4}
-                    style={[globalStyles.titleText, { paddingHorizontal: 0 }]}
-                    theme={{
-                      colors: {
-                        onSurfaceVariant: globalStyles.placeholderColor,
-                      },
-                    }}
-                    mode="flat"
-                    placeholder="1997"
-                    underlineColor={globalStyles.whiteColor}
-                    activeUnderlineColor={globalStyles.primaryColor}
-                    textColor={globalStyles.whiteColor}
-                    onChangeText={(text) => setYearOfBirth(text)}
-                    value={yearOfBirth}
-                  />
-                </View>
-              </View>
+              <ChooseBirthDate
+                dayOfBirth={dayOfBirth}
+                monthOfBirth={monthOfBirth}
+                yearOfBirth={yearOfBirth}
+                getDayOfBirth={getDayOfBirth}
+                getMonthOfBirth={getMonthOfBirth}
+                getYearOfBirth={getYearOfBirth}
+              />
               <View className="mb-7">
                 <MainTextInput
                   title="What is your City ?"
@@ -253,7 +186,7 @@ const CreateUserInfos = ({ navigation }) => {
                 />
               </View>
             </View>
-            <View>
+            <View className="mt-10">
               {errorMessage && (
                 <View>
                   <Snackbar
@@ -274,7 +207,6 @@ const CreateUserInfos = ({ navigation }) => {
                 //MainButton as an eventHandler prop responsible to fire a function in his parent component
                 // This is also inverse data flow
                 eventHandler={handlePress}
-                disabled={buttonDisabled}
               >
                 <Text style={globalStyles.titleText}>Continue</Text>
               </MainButton>

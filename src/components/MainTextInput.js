@@ -7,6 +7,7 @@ const MainTextInput = ({
   title,
   subtitle,
   placeholder,
+  multiline,
   getInputValue,
   value,
 }) => {
@@ -14,13 +15,13 @@ const MainTextInput = ({
     <View>
       {title && <Text style={globalStyles.titleText}>{title}</Text>}
       {subtitle && (
-        <Text className="mt-2" style={globalStyles.mainText}>
+        <Text className="my-2" style={globalStyles.textSmall}>
           {subtitle}
         </Text>
       )}
       <TextInput
         className="bg-transparent"
-        style={[globalStyles.titleText, { paddingHorizontal: 0 }]}
+        style={[globalStyles.mainText, { paddingHorizontal: 0 }]}
         theme={{ colors: { onSurfaceVariant: globalStyles.placeholderColor } }}
         mode="flat"
         placeholder={placeholder}
@@ -29,6 +30,8 @@ const MainTextInput = ({
         textColor={globalStyles.whiteColor}
         onChangeText={(text) => getInputValue(text)}
         value={value}
+        maxLength={150}
+        multiline={multiline}
       />
     </View>
   );

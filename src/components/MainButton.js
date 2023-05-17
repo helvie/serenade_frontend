@@ -3,16 +3,13 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import globalStyles from "../../utils/globalStyles";
 
-const MainButton = ({ children, eventHandler, disabled }) => {
+const MainButton = ({ children, eventHandler }) => {
   return (
     <Button
-      disabled={disabled}
       style={[
         styles.main,
         {
-          backgroundColor: disabled
-            ? globalStyles.secondaryColor
-            : globalStyles.primaryColor,
+          backgroundColor: globalStyles.primaryColor,
         },
       ]}
       mode="contained"

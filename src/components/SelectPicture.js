@@ -2,10 +2,19 @@ import React, { useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
 import globalStyles from "../../utils/globalStyles";
 import * as ImagePicker from "expo-image-picker";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { AntDesign } from "@expo/vector-icons";
 
-const SelectPicture = ({ size, getUserPictures, removeUserPicture }) => {
+const SelectPicture = ({
+  size,
+  getUserPictures,
+  removeUserPicture,
+  picture,
+}) => {
+  //If  the user has selected an image
   const [selectedImage, setSelectedImage] = useState(null);
+
+  //If the user picture come from  the backend
+  const [userPicture, setUserPicture] = useState(picture);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -21,7 +30,19 @@ const SelectPicture = ({ size, getUserPictures, removeUserPicture }) => {
     }
   };
 
-  return !selectedImage ? (
+  handleDeletePress = () => {
+    //Handle delete depending on whether or not the user has selected an image or image come from the backend
+    if (selectedImage) {
+      setSelectedImage(null);
+      removeUserPicture(selectedImage);
+    }
+    if (userPicture) {
+      setUserPicture(null);
+      removeUserPicture(userPicture);
+    }
+  };
+
+  return !selectedImage && !userPicture ? (
     <TouchableOpacity
       style={{
         borderColor: globalStyles.primaryColor,
@@ -44,20 +65,15 @@ const SelectPicture = ({ size, getUserPictures, removeUserPicture }) => {
         }}
       >
         <Image
-          source={{ uri: selectedImage }}
+          source={userPicture ? { uri: userPicture } : { uri: selectedImage }}
           className="w-full h-full rounded-sm absolute z-0"
         />
       </View>
-      <View style={{ position: "absolute", top: -30, right: 0 }}>
-        <TouchableOpacity
-          onPress={() => {
-            setSelectedImage(null);
-            removeUserPicture(selectedImage);
-          }}
-        >
-          <Ionicons
-            name="close-circle-outline"
-            size={32}
+      <View style={{ position: "absolute", top: -5, right: 0 }}>
+        <TouchableOpacity onPress={handleDeletePress}>
+          <AntDesign
+            name="closecircle"
+            size={25}
             color={globalStyles.primaryColor}
           />
         </TouchableOpacity>

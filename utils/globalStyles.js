@@ -50,11 +50,11 @@ const globalStyles = StyleSheet.create({
     color: "#000",
   },
 
-  errorText: {
+  SucessText: {
     fontSize: 17,
     lineHeight: 25,
     fontFamily: "LabGrostesque-Regular",
-    color: "#9d0208",
+    color: "#228B22",
   },
 
   mainTextPrimary: {
@@ -62,6 +62,13 @@ const globalStyles = StyleSheet.create({
     lineHeight: 25,
     fontFamily: "LabGrostesque-Regular",
     color: "#ec7955",
+  },
+
+  textSmall: {
+    fontSize: 14,
+    color: "white",
+    fontFamily: "LabGrostesque-Regular",
+    lineHeight: 20,
   },
 });
 
