@@ -19,7 +19,7 @@ const StackNavigator = () => {
       }}
     >
       <Stack.Group>
-        <Stack.Screen name="LandingScreen" component={LandingScreen} />
+        {/* <Stack.Screen name="LandingScreen" component={LandingScreen} />
         <Stack.Screen name="SignupScreen" component={SignupScreen} />
         <Stack.Screen name="ChooseYourGender" component={ChooseYourGender} />
         <Stack.Screen name="ChooseSexuality" component={ChooseSexuality} />
@@ -31,7 +31,7 @@ const StackNavigator = () => {
         <Stack.Screen
           name="SetProfilePictures"
           component={SetProfilePictures}
-        />
+        /> */}
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
       </Stack.Group>
     </Stack.Navigator>
