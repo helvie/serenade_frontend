@@ -7,7 +7,6 @@ import { useFonts } from "expo-font";
 import { useCallback } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import StackNavigator from "./navigation/StackNavigator";
-import ItsAMatch from "./src/screens/ItsAMatch";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -36,10 +35,9 @@ export default function App() {
         onLayout={onLayoutRootView}
         style={{ backgroundColor: globalStyles.appBackgroundColor }}
       >
-        <ItsAMatch />
-        {/* <NavigationContainer>
+        <NavigationContainer>
           <StackNavigator />
-        </NavigationContainer> */}
+        </NavigationContainer>
       </SafeAreaView>
     </PaperProvider>
   );
