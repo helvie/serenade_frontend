@@ -43,7 +43,11 @@ const ItsAMatch = () => {
   };
   return (
     <View style={globalStyles.screen}>
-      <ConfettiCannon count={200} origin={{ x: -10, y: 0 }} />
+      <ConfettiCannon
+        count={200}
+        origin={{ x: -10, y: 0 }}
+        colors={["#1D2635", "#FFFFFF", "#EC7955"]}
+      />
       <View style={globalStyles.container}>
         <ScrollView contentContainerStyle={{ alignItems: "center" }}>
           <Text
