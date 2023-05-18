@@ -16,37 +16,18 @@ import { Slider } from "@miblanchard/react-native-slider";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Divider, RadioButton } from "react-native-paper";
-import { Entypo } from "@expo/vector-icons";
 import RadioButtonItem from "../components/RadioButtonItem";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
+import ChooseYourCity from "../components/ChooseYourCity";
 
 const SearchSettings = ({ openSearchSettings, closeSearchSettings }) => {
   const [genderSearched, setGenderSearched] = useState("Woman");
   const [partnerSexuality, setPartnerSexuality] = useState("Gay");
+  const [userCity, setUserCity] = useState({});
 
-  //To use if we have an input, is used to prevent the keyboard from shifting the modal upwards
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
-  // useEffect(() => {
-  //   const keyboardDidShowListener = Keyboard.addListener(
-  //     "keyboardDidShow",
-  //     () => {
-  //       setKeyboardVisible(true);
-  //     }
-  //   );
-
-  //   const keyboardDidHideListener = Keyboard.addListener(
-  //     "keyboardDidHide",
-  //     () => {
-  //       setKeyboardVisible(false);
-  //     }
-  //   );
-
-  //   return () => {
-  //     keyboardDidShowListener.remove();
-  //     keyboardDidHideListener.remove();
-  //   };
-  // }, []);
-
+  const getCity = (value) => {
+    setUserCity(value);
+  };
   //Initial values for the sliders
   const [ageRange, setAgeRange] = useState([0, 50, 100]);
   const [maxDistance, setMaxDistance] = useState(30);
@@ -85,13 +66,18 @@ const SearchSettings = ({ openSearchSettings, closeSearchSettings }) => {
       maxDistance: maxDistance[0],
       ageMin: ageRange[0],
       ageMax: ageRange[1],
+      userCity,
     });
   };
 
   return (
-    <Modal visible={openSearchSettings} transparent={true}>
+    <Modal
+      visible={openSearchSettings}
+      transparent={true}
+      animationType="slide"
+    >
       <TouchableOpacity style={styles.container} activeOpacity={1}>
-        <KeyboardAvoidingView style={keyboardVisible && { flex: 1 }}>
+        <KeyboardAvoidingView style={{ flex: 1 }}>
           <ScrollView style={styles.modal}>
             <View style={styles.modalContent}>
               <View className="flex-row justify-between items-center mb-5">
@@ -125,6 +111,10 @@ const SearchSettings = ({ openSearchSettings, closeSearchSettings }) => {
                   Refine your search
                 </Text>
               </View>
+              <View className="mb-7">
+                <ChooseYourCity getCity={getCity} />
+              </View>
+
               {/* +++++++++++++MAX DISTANCE SLIDER  ++++++++++++ */}
               <View className="mb-7">
                 <Text className="mb-2" style={globalStyles.titleText}>
@@ -261,20 +251,13 @@ const SearchSettings = ({ openSearchSettings, closeSearchSettings }) => {
   );
 };
 
-const windowHeight = Dimensions.get("window").height;
-const modalHeight = (10 / 12) * windowHeight;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
     justifyContent: "flex-end",
   },
   modal: {
     backgroundColor: "rgba(29, 38, 53, 0.85)",
-    borderTopLeftRadius: 35,
-    borderTopRightRadius: 35,
-    height: modalHeight,
   },
   modalContent: {
     flex: 1,

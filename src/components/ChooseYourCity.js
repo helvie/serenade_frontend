@@ -9,7 +9,7 @@ import React, { useState } from "react";
 import MainTextInput from "./MainTextInput";
 import globalStyles from "../../utils/globalStyles";
 
-const ChooseYourCity = () => {
+const ChooseYourCity = ({ getCity }) => {
   // Settings for drop down menu location
   //------------------------------------------------
   const [searchTerm, setSearchTerm] = useState("");
@@ -41,9 +41,11 @@ const ChooseYourCity = () => {
     setSearchTerm(cityToSet);
     setResults([]);
 
-    console.log(city);
-    //LATITUDE LONGITUDE (geometry.lat & geometry.lng)
-    console.log(geometry);
+    getCity({
+      name: city,
+      lat: geometry.lat,
+      lng: geometry.lng,
+    });
   };
 
   const getCityName = (value) => {
@@ -85,16 +87,17 @@ const ChooseYourCity = () => {
 
 const styles = StyleSheet.create({
   section: {
-    paddingTop: 20,
     width: "100%",
   },
   itemCity: {
+    paddingHorizontal: 10,
     minHeight: 60,
     width: "95%",
     borderBottomColor: "grey",
     borderBottomWidth: 1,
     justifyContent: "center",
     alignSelf: "center",
+    backgroundColor: "#4A5364",
   },
 });
 

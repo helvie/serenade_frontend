@@ -24,6 +24,7 @@ const CreateUserInfos = ({ navigation }) => {
   const [dayOfBirth, setDayOfBirth] = useState("");
   const [monthOfBirth, setMonthOfBirth] = useState("");
   const [yearOfBirth, setYearOfBirth] = useState("");
+  const [userCity, setUserCity] = useState({});
 
   //This function is used to reset the input fields after form submission
   const resetInputFields = () => {
@@ -37,6 +38,11 @@ const CreateUserInfos = ({ navigation }) => {
   //This is used to track the name in the MainTextInput component
   const getName = (value) => {
     setName(value);
+  };
+
+  //This is used to track the user city in the ChooseYourCity component
+  const getCity = (value) => {
+    setUserCity(value);
   };
 
   //This is used to track the imaginary name in the MainTextInput component
@@ -65,7 +71,7 @@ const CreateUserInfos = ({ navigation }) => {
     setErrorMessage("");
   };
 
-  const handlePress = async () => {
+  const handlePress = () => {
     //Some validations to make sure that the inputs are not empty and valid
     if (
       isInputEmpty(name) ||
@@ -122,6 +128,7 @@ const CreateUserInfos = ({ navigation }) => {
       name,
       imaginaryName,
       userDateOfBirth,
+      userCity,
     });
     // call the function to reset input fields
     resetInputFields();
@@ -170,7 +177,7 @@ const CreateUserInfos = ({ navigation }) => {
                 getYearOfBirth={getYearOfBirth}
               />
 
-              <ChooseYourCity />
+              <ChooseYourCity getCity={getCity} />
             </View>
             <View className="mt-10">
               {errorMessage && (
