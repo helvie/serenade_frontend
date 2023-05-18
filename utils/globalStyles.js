@@ -70,6 +70,14 @@ const globalStyles = StyleSheet.create({
     fontFamily: "LabGrostesque-Regular",
     lineHeight: 20,
   },
+
+  textSmallColored: {
+    fontSize: 14,
+    color: "white",
+    fontFamily: "LabGrostesque-Regular",
+    lineHeight: 20,
+    color: "#F0D3C9",
+  },
 });
 
 export default globalStyles;

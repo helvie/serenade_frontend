@@ -41,7 +41,6 @@ export default function TabNavigator() {
         tabBarActiveTintColor: globalStyles.iconActiveColor,
         tabBarInactiveTintColor: globalStyles.iconInactiveColor,
         headerShown: false,
-        tabBarStyle: { height: 70 },
         tabBarOptions: {
           showLabel: false, // Hide the labels of the tabs
         },

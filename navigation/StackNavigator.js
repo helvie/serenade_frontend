@@ -10,6 +10,7 @@ import CreateUserInfos from "../src/screens/CreateUserInfos";
 import SetProfilePictures from "../src/screens/SetProfilePictures";
 import TabNavigator from "./TabNavigator";
 import ProfileScreen from "../src/screens/ProfileScreen";
+import ChatScreen from "../src/screens/ChatScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,7 +38,8 @@ const StackNavigator = () => {
         /> 
         
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />*/}
-        <Stack.Screen name="TabNavigator" component={TabNavigator} />
+        {/* <Stack.Screen name="TabNavigator" component={TabNavigator} /> */}
+        <Stack.Screen name="ChatScreen" component={ChatScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );

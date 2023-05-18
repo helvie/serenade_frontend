@@ -191,7 +191,7 @@ const SearchSettings = ({ openSearchSettings, closeSearchSettings }) => {
                   <View className="w-10/12">
                     <MultiSlider
                       values={[30, 55]}
-                      sliderLength={310}
+                      sliderLength={300}
                       onValuesChange={handleAgeRangeChange}
                       min={18}
                       max={99}
