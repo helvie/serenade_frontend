@@ -7,9 +7,6 @@ import { useFonts } from "expo-font";
 import { useCallback } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import StackNavigator from "./navigation/StackNavigator";
-import UpdateProfile from "./src/screens/UpdateProfile";
-import SignupScreen from "./src/screens/SignupScreen";
-import CreateUserInfos from "./src/screens/CreateUserInfos";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -38,9 +35,6 @@ export default function App() {
         onLayout={onLayoutRootView}
         style={{ backgroundColor: globalStyles.appBackgroundColor }}
       >
-        {/* <NavigationContainer>
-          <UpdateProfile />
-        </NavigationContainer> */}
         <NavigationContainer>
           <StackNavigator />
         </NavigationContainer>

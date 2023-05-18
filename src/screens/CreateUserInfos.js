@@ -16,6 +16,7 @@ import InProgressBar from "../components/InProgressBar";
 import Header from "../components/Header";
 import ChooseBirthDate from "../components/ChooseBirthDate";
 import moment from "moment";
+import ChooseYourCity from "../components/ChooseYourCity";
 
 const CreateUserInfos = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -23,7 +24,6 @@ const CreateUserInfos = ({ navigation }) => {
   const [dayOfBirth, setDayOfBirth] = useState("");
   const [monthOfBirth, setMonthOfBirth] = useState("");
   const [yearOfBirth, setYearOfBirth] = useState("");
-  const [cityName, setCityName] = useState("");
 
   //This function is used to reset the input fields after form submission
   const resetInputFields = () => {
@@ -32,7 +32,6 @@ const CreateUserInfos = ({ navigation }) => {
     setDayOfBirth("");
     setMonthOfBirth("");
     setYearOfBirth("");
-    setCityName("");
   };
 
   //This is used to track the name in the MainTextInput component
@@ -45,9 +44,6 @@ const CreateUserInfos = ({ navigation }) => {
     setImaginaryName(value);
   };
 
-  const getCityName = (value) => {
-    setCityName(value);
-  };
   const getDayOfBirth = (value) => {
     setDayOfBirth(value);
   };
@@ -74,7 +70,6 @@ const CreateUserInfos = ({ navigation }) => {
     if (
       isInputEmpty(name) ||
       isInputEmpty(imaginaryName) ||
-      isInputEmpty(cityName) ||
       isInputEmpty(dayOfBirth) ||
       isInputEmpty(monthOfBirth) ||
       isInputEmpty(yearOfBirth)
@@ -126,7 +121,6 @@ const CreateUserInfos = ({ navigation }) => {
     console.log({
       name,
       imaginaryName,
-      cityName,
       userDateOfBirth,
     });
     // call the function to reset input fields
@@ -175,16 +169,8 @@ const CreateUserInfos = ({ navigation }) => {
                 getMonthOfBirth={getMonthOfBirth}
                 getYearOfBirth={getYearOfBirth}
               />
-              <View className="mb-7">
-                <MainTextInput
-                  title="What is your City ?"
-                  placeholder="Paris"
-                  //Send the getCityName function as prop to get the name value in the component via inverse data flow
-                  getInputValue={getCityName}
-                  //Pass the value of the input as prop in order to be able to clear it after form submission
-                  value={cityName}
-                />
-              </View>
+
+              <ChooseYourCity />
             </View>
             <View className="mt-10">
               {errorMessage && (

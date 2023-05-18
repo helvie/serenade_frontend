@@ -37,9 +37,10 @@ const StackNavigator = () => {
           component={SetProfilePictures}
         /> 
         
-        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />*/}
-        {/* <Stack.Screen name="TabNavigator" component={TabNavigator} /> */}
-        <Stack.Screen name="ChatScreen" component={ChatScreen} />
+        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+         <Stack.Screen name="TabNavigator" component={TabNavigator} /> 
+    <Stack.Screen name="ChatScreen" component={ChatScreen} /> */}
+        <Stack.Screen name="CreateUserInfos" component={CreateUserInfos} />
       </Stack.Group>
     </Stack.Navigator>
   );
