@@ -56,7 +56,7 @@ const LinkAPartner = ({ openLinkPartner, closeLinkPartner }) => {
   };
 
   return (
-    <Modal visible={openLinkPartner} transparent={true}>
+    <Modal visible={openLinkPartner} transparent={true} animationType="slide">
       <View style={styles.container} activeOpacity={1}>
         <KeyboardAvoidingView style={keyboardVisible && { flex: 1 }}>
           <View style={styles.modal}>
