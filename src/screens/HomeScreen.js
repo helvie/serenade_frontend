@@ -1,10 +1,29 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import SearchSettings from "./SearchSettings";
+import globalStyles from "../../utils/globalStyles";
 
 const HomeScreen = () => {
+  const [openSearchSettings, setOpenSearchSettings] = useState(false);
+  const closeSearchSettings = () => {
+    setOpenSearchSettings(false);
+  };
   return (
-    <View>
-      <Text>HomeScreen</Text>
+    <View style={globalStyles.screen}>
+      <SearchSettings
+        openSearchSettings={openSearchSettings}
+        closeSearchSettings={closeSearchSettings}
+      />
+      <View style={globalStyles.container}>
+        <TouchableOpacity
+          className="bg-black"
+          onPress={() => {
+            setOpenSearchSettings(true);
+          }}
+        >
+          <Text style={globalStyles.mainText}>HomeScreen</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
