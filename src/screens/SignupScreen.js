@@ -14,8 +14,12 @@ import MainButton from "../components/MainButton";
 import { Snackbar } from "react-native-paper";
 import { isEmailValid, isInputEmpty } from "../../utils/validateInputsContent";
 import Header from "../components/Header";
+import { useDispatch } from "react-redux";
+import { addSubscriptionToStore } from "../../reducers/User";
 
 const SignupScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [emailConfirmation, setEmailConfirmation] = useState("");
   const [password, setPassword] = useState("");
@@ -75,7 +79,8 @@ const SignupScreen = ({ navigation }) => {
       return;
     }
     //If the email and password are valid, this function will be called
-    console.log({ email, password });
+    dispatch(addSubscriptionToStore({ email, password }));
+
     navigation.navigate("ChooseYourGender");
     // call the function to reset input fields
     resetInputFields();

@@ -14,8 +14,11 @@ import { RadioButton, Snackbar } from "react-native-paper";
 import RadioButtonItem from "../components/RadioButtonItem";
 import { isInputEmpty } from "../../utils/validateInputsContent";
 import Header from "../components/Header";
+import { useDispatch } from "react-redux";
+import { addSexualityToStore } from "../../reducers/User";
 
 const ChooseYourSexuality = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
   //Used to set the snack bar visibility
   const [isSnackBarVisible, setIsSnackBarVisible] = useState(false);
@@ -33,7 +36,7 @@ const ChooseYourSexuality = ({ navigation }) => {
       setErrorMessage("Please make a choice");
       return;
     }
-    console.log(inputValue);
+    dispatch(addSexualityToStore(inputValue));
     navigation.navigate("ChooseRelationshipStatus");
   };
   return (
