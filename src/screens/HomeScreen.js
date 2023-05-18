@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import SearchSettings from "./SearchSettings";
+//import SearchSettings from "./SearchSettings";
 import globalStyles from "../../utils/globalStyles";
 import Swiper from "react-native-deck-swiper";
 import { allUsers } from "../../fakeData/allUsers";
@@ -11,21 +11,19 @@ const HomeScreen = () => {
     setOpenSearchSettings(false);
   };
   return (
-    <View style={globalStyles.screen}>
-      <View style={globalStyles.container}>
-        {/* <HomeHeader /> */}
-        <View className="flex-1">
-          <Swiper
-            containerStyle={{ backgroundColor: "transparent" }}
-            cards={allUsers}
-            renderCard={(card) => (
-              <View key={card.id} className="bg-red-500">
-                <Text>{card.firstname}</Text>
-              </View>
-            )}
-          />
-        </View>
-      </View>
+    <View style={{ flex: 1, padding: 20, backgroundColor: "yellow" }}>
+      {/* <HomeHeader /> */}
+      <Text>Hello</Text>
+
+      <Swiper
+        containerStyle={{ backgroundColor: "yellow" }}
+        cards={allUsers}
+        renderCard={(card) => (
+          <View key={card.id} className="bg-red-500">
+            <Text>{card.firstname}</Text>
+          </View>
+        )}
+      />
     </View>
   );
 };
