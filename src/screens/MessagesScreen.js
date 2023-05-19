@@ -1,9 +1,15 @@
-import { View, StyleSheet, ScrollView, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import globalStyles from "../../utils/globalStyles";
 import CardMessageContainer from "../components/CardMessageContainer";
 
-const MessagesScreen = () => {
+const MessagesScreen = ({ navigation }) => {
   const photosData1 = [
     {
       imageUrl: "https://static.lacapsule.academy/faceup/picture1.jpg",
@@ -57,13 +63,19 @@ const MessagesScreen = () => {
 
   const message = photosData1.map((data, i) => {
     return (
-      <CardMessageContainer
-        key={i}
-        image={data.imageUrl}
-        name={data.name}
-        message={data.message}
-        time={data.time}
-      />
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("ChatScreen");
+        }}
+      >
+        <CardMessageContainer
+          key={i}
+          image={data.imageUrl}
+          name={data.name}
+          message={data.message}
+          time={data.time}
+        />
+      </TouchableOpacity>
     );
   });
 

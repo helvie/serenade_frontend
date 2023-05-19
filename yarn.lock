@@ -1821,6 +1821,11 @@
   resolved "https://registry.npmjs.org/@react-native/normalize-color/-/normalize-color-2.1.0.tgz"
   integrity sha512-Z1jQI2NpdFJCVgpY+8Dq/Bt3d+YUi1928Q+/CZm/oh66fzM0RUl54vvuXlPJKybH4pdCZey1eDTPaLHkMPNgWA==
 
+"@react-native/normalize-colors@*":
+  version "0.73.0"
+  resolved "https://registry.yarnpkg.com/@react-native/normalize-colors/-/normalize-colors-0.73.0.tgz#23e15cf2a2b73ac7e5e6df8d5b86b173cfb35a3f"
+  integrity sha512-EmSCmJ0djeMJadeFsms6Pl/R85i9xSJMc+tyJu/GEMkKXBVyYQyqanK4RHFU0v8MO90OWj+SiFXjCkKYiJ6mkg==
+
 "@react-native/polyfills@2.0.0":
   version "2.0.0"
   resolved "https://registry.npmjs.org/@react-native/polyfills/-/polyfills-2.0.0.tgz"
@@ -3149,6 +3154,15 @@ deprecated-react-native-prop-types@^3.0.1:
     invariant "*"
     prop-types "*"
 
+deprecated-react-native-prop-types@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/deprecated-react-native-prop-types/-/deprecated-react-native-prop-types-4.1.0.tgz#8ed03a64c21b7fbdd2d000957b6838d4f38d2c66"
+  integrity sha512-WfepZHmRbbdTvhcolb8aOKEvQdcmTMn5tKLbqbXmkBvjFjRVWAYqsXk/DBsV8TZxws8SdGHLuHaJrHSQUPRdfw==
+  dependencies:
+    "@react-native/normalize-colors" "*"
+    invariant "*"
+    prop-types "*"
+
 destroy@1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/destroy/-/destroy-1.2.0.tgz"
@@ -3558,7 +3572,7 @@ fbjs-css-vars@^1.0.0:
   resolved "https://registry.npmjs.org/fbjs-css-vars/-/fbjs-css-vars-1.0.2.tgz"
   integrity sha512-b2XGFAFdWZWg0phtAWLHCk836A1Xann+I+Dgd3Gk64MHKZO44FfoD1KxyvbSh0qZsIoXQGGlVztIY+oitJPpRQ==
 
-fbjs@^0.8.9:
+fbjs@^0.8.4, fbjs@^0.8.9:
   version "0.8.18"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.18.tgz#9835e0addb9aca2eff53295cd79ca1cfc7c9662a"
   integrity sha512-EQaWFK+fEPSoibjNy8IxUtaFOMXcWsY0JaVrQoZR9zC8N2Ygf9iDITPWjUTVIax95b6I742JFLqASHfsag/vKA==
@@ -5874,7 +5888,7 @@ prompts@^2.3.2, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@*, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@*, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -5956,6 +5970,14 @@ rc@~1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-addons-shallow-compare@15.6.2:
+  version "15.6.2"
+  resolved "https://registry.yarnpkg.com/react-addons-shallow-compare/-/react-addons-shallow-compare-15.6.2.tgz#198a00b91fc37623db64a28fd17b596ba362702f"
+  integrity sha512-yAV9tOObmKPiohqne1jiMcx6kDjfz7GeL8K9KHgI+HvDsbrRv148uyUzrPc6GwepZnQcJ59Q3lp1ghrkyPwtjg==
+  dependencies:
+    fbjs "^0.8.4"
+    object-assign "^4.1.0"
+
 react-devtools-core@^4.26.1:
   version "4.27.7"
   resolved "https://registry.npmjs.org/react-devtools-core/-/react-devtools-core-4.27.7.tgz"
@@ -5984,12 +6006,25 @@ react-is@^17.0.1:
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-lifecycles-compat@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+  integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
 react-native-animatable@^1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.3.tgz#a13a4af8258e3bb14d0a9d839917e9bb9274ec8a"
   integrity sha512-2ckIxZQAsvWn25Ho+DK3d1mXIgj7tITkrS4pYDvx96WyOttSvzzFeQnM2od0+FUMzILbdHDsDEqZvnz1DYNQ1w==
   dependencies:
     prop-types "^15.7.2"
+
+react-native-card-stack-swiper@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/react-native-card-stack-swiper/-/react-native-card-stack-swiper-1.2.5.tgz#c5497b4025e7963d50249a440aaf693e8e4c12e6"
+  integrity sha512-Z9hWblgHTU4K3YAjbIpjC2bBAc6QpEzC4FKqY2RsX0Zd9qD4UYadKXYoUjfbYGhvbDdYuTWkGE8i8lra3bKmBw==
+  dependencies:
+    prop-types "15.5.10"
+    react-lifecycles-compat "^3.0.4"
 
 react-native-codegen@^0.71.5:
   version "0.71.5"
@@ -6005,13 +6040,6 @@ react-native-confetti-cannon@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/react-native-confetti-cannon/-/react-native-confetti-cannon-1.5.2.tgz#ca1a05edd2a64b080ea8b6238c49277908e1f123"
   integrity sha512-IZuWjlW7QsdxEGNnvpD6W+7iKCCQhnd5BvuNvMtirU7Nxm8WS2N6LPGMBz1ZYDuusG+GRZkoXXTNCdoAAGpCTg==
-
-react-native-deck-swiper@^2.0.14:
-  version "2.0.14"
-  resolved "https://registry.yarnpkg.com/react-native-deck-swiper/-/react-native-deck-swiper-2.0.14.tgz#68d0a4ca889230151c8a47743351881592e53138"
-  integrity sha512-sVQdfwUXzdFsYFSAcHCbbIykmU+5/nkWgm44zOzivkFt1nKpGYS1anOHzrLm/v7DPlEXgoeWpRNhgUHNvzniLQ==
-  dependencies:
-    prop-types "15.5.10"
 
 react-native-dropdown-picker@^5.4.6:
   version "5.4.6"
@@ -6057,6 +6085,14 @@ react-native-screens@~3.20.0:
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
+
+react-native-snap-carousel@^3.9.1:
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/react-native-snap-carousel/-/react-native-snap-carousel-3.9.1.tgz#6fd9bd8839546c2c6043a41d2035afbc6fe0443e"
+  integrity sha512-xWEGusacIgK1YaDXLi7Gao2+ISLoGPVEBR8fcMf4tOOJQufutlNwkoLu0l6B8Qgsrre0nTxoVZikRgGRDWlLaQ==
+  dependencies:
+    prop-types "^15.6.1"
+    react-addons-shallow-compare "15.6.2"
 
 react-native-svg@^13.9.0:
   version "13.9.0"

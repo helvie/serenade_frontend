@@ -10,7 +10,7 @@ import {
 import { useState, useRef, useEffect } from "react";
 import React from "react";
 import globalStyles from "../../utils/globalStyles";
-import ChatUserAvatar from "../components/ChatUserAvatar";
+import UserAvatar from "../components/UserAvatar";
 import ChatRecipientMessage from "../components/ChatRecipientMessage";
 import ChatSenderMessage from "../components/ChatSenderMessage";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -127,12 +127,8 @@ const ChatScreen = () => {
   };
 
   //--------------------------------------------------------------
-
-  const connected = true;
-  const avatarImage = { img: require("../../assets/avatar.jpg") };
-  const avatarDisplay = true;
-  const avatarMsgSize = 40;
-  const avatarHeaderSize = 70;
+  const avatarImage =
+    "https://images.pexels.com/photos/1382726/pexels-photo-1382726.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
 
   // Send messages
   //--------------------------------------------------------------
@@ -162,10 +158,10 @@ const ChatScreen = () => {
           key={i}
           date={hours}
           text={data.message}
-          connected={connected}
-          size={avatarMsgSize}
-          avatarImage={avatarImage.img}
-          avatarDisplay={avatarDisplay}
+          connected={true}
+          size={40}
+          avatarImage={avatarImage}
+          avatarDisplay={true}
         />
       );
     } else {
@@ -184,17 +180,16 @@ const ChatScreen = () => {
           </View>
 
           <View style={styles.user} className="w-3/6 items-center">
-            <ChatUserAvatar
-              connected={connected}
-              size={avatarHeaderSize}
-              avatarImage={avatarImage.img}
-              avatarDisplay={avatarDisplay}
+            <UserAvatar
+              connected={true}
+              size={70}
+              avatarImage={avatarImage}
+              avatarDisplay={true}
             />
           </View>
           <View className="w-1/6 items-center">
             <TouchableOpacity
               onPress={() => handleDismatch()}
-              style={styles.dislikeIcon}
               className="w-7 h-7 bg-white rounded-full justify-center items-center"
             >
               <MaterialCommunityIcons

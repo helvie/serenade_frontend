@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import globalStyles from "../../utils/globalStyles";
-import ChatUserAvatar from "../components/ChatUserAvatar";
+import UserAvatar from "../components/UserAvatar";
 
 const ChatRecipientMessage = (props) => {
   const size = props.size;
@@ -12,7 +12,7 @@ const ChatRecipientMessage = (props) => {
   return (
     <View style={styles.message1Container}>
       <View style={[styles.leftContainer, { width: props.size }]}>
-        <ChatUserAvatar
+        <UserAvatar
           connected={connected}
           size={size}
           avatarImage={avatarImage}

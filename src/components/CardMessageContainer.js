@@ -4,35 +4,33 @@ import globalStyles from "../../utils/globalStyles";
 
 export default function CardMessageContainer(props) {
   return (
-    <TouchableOpacity>
-      <View style={styles.cardContainer}>
-        <View style={styles.content}>
-          <Image source={{ uri: props.image }} style={styles.image} />
-        </View>
-        <View style={styles.cardText}>
-          <View style={styles.iconContainer}>
-            <Text style={[globalStyles.mainText, { marginLeft: 10 }]}>
-              {props.name}
-            </Text>
-          </View>
-          <View style={styles.iconContainer}>
-            <Text style={[styles.secondText, { marginLeft: 10 }]}>
-              {props.message}
-            </Text>
-          </View>
+    <View style={styles.cardContainer}>
+      <View style={styles.content}>
+        <Image source={{ uri: props.image }} style={styles.image} />
+      </View>
+      <View style={styles.cardText}>
+        <View style={styles.iconContainer}>
+          <Text style={[globalStyles.mainText, { marginLeft: 10 }]}>
+            {props.name}
+          </Text>
         </View>
         <View style={styles.iconContainer}>
-          <Text
-            style={[
-              styles.secondText,
-              { marginRight: 30, marginTop: 5, textAlign: "right" },
-            ]}
-          >
-            {props.time}
+          <Text style={[styles.secondText, { marginLeft: 10 }]}>
+            {props.message}
           </Text>
         </View>
       </View>
-    </TouchableOpacity>
+      <View style={styles.iconContainer}>
+        <Text
+          style={[
+            styles.secondText,
+            { marginRight: 30, marginTop: 5, textAlign: "right" },
+          ]}
+        >
+          {props.time}
+        </Text>
+      </View>
+    </View>
   );
 }
 

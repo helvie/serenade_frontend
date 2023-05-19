@@ -41,7 +41,11 @@ const ProfileScreen = ({ navigation }) => {
               </View>
             </View>
             <View style={styles.iconSet}>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("UpdateProfile");
+                }}
+              >
                 <FontAwesome name="pencil-square-o" size={30} color="white" />
               </TouchableOpacity>
             </View>

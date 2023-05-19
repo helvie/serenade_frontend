@@ -20,7 +20,7 @@ import RadioButtonItem from "../components/RadioButtonItem";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import ChooseYourCity from "../components/ChooseYourCity";
 
-const SearchSettings = ({ openSearchSettings, closeSearchSettings }) => {
+const SearchSettings = ({ settingsOpen, closeSearchSettings }) => {
   const [genderSearched, setGenderSearched] = useState("Woman");
   const [partnerSexuality, setPartnerSexuality] = useState("Gay");
   const [userCity, setUserCity] = useState({});
@@ -71,11 +71,7 @@ const SearchSettings = ({ openSearchSettings, closeSearchSettings }) => {
   };
 
   return (
-    <Modal
-      visible={openSearchSettings}
-      transparent={true}
-      animationType="slide"
-    >
+    <Modal visible={settingsOpen} transparent={true} animationType="slide">
       <TouchableOpacity style={styles.container} activeOpacity={1}>
         <KeyboardAvoidingView style={{ flex: 1 }}>
           <ScrollView style={styles.modal}>

@@ -2,7 +2,7 @@ import { Image, View, Text, StyleSheet } from "react-native";
 import React from "react";
 import globalStyles from "../../utils/globalStyles";
 
-const ChatUserAvatar = (props) => {
+const UserAvatar = (props) => {
   // // Initialisation of connected status
   const isConnected = props.connected;
   const displayAvatar = props.avatarDisplay;
@@ -10,16 +10,14 @@ const ChatUserAvatar = (props) => {
   const avatarImage = props.avatarImage;
 
   return (
-    <View
-      style={[styles.messageAvatarContainer, { width: size, height: size }]}
-    >
+    <View style={{ width: size, height: size }}>
       {displayAvatar && (
         <>
           <View style={isConnected && [styles.connect]}></View>
           <Image
             style={[styles.avatarImage, { width: size, height: size }]}
             className="rounded-full"
-            source={avatarImage}
+            source={{ uri: avatarImage }}
           />
         </>
       )}
@@ -45,4 +43,4 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
 });
-export default ChatUserAvatar;
+export default UserAvatar;

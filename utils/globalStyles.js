@@ -7,7 +7,11 @@ const globalStyles = StyleSheet.create({
 
   secondaryColor: "#3e384e",
 
+  cardColor: "#3b485e",
+
   placeholderColor: "#686178",
+
+  lightPink: "#F5CBCB",
 
   whiteColor: "#fff",
 
@@ -48,6 +52,20 @@ const globalStyles = StyleSheet.create({
     lineHeight: 25,
     fontFamily: "LabGrostesque-Regular",
     color: "#000",
+  },
+
+  mainTextPink: {
+    fontSize: 17,
+    lineHeight: 25,
+    fontFamily: "LabGrostesque-Regular",
+    color: "#F5CBCB",
+  },
+
+  titleTextPink: {
+    fontSize: 20,
+    lineHeight: 25,
+    fontFamily: "LabGrostesque-Regular",
+    color: "#F5CBCB",
   },
 
   SucessText: {

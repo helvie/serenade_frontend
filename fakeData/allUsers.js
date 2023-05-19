@@ -1,8 +1,8 @@
 export const allUsers = [
   {
     id: 1,
-    firstname: "John",
-    city: "New York",
+    firstname: "Gilles",
+    city: "Nimes",
     age: 30,
     gender: "Male",
     sexuality: "Heterosexual",
@@ -10,15 +10,15 @@ export const allUsers = [
     description:
       "Experienced software engineer proficient in multiple programming languages.",
     pictures: [
-      "https://www.pexels.com/photo/person-wearing-blue-denim-jacket-and-black-denim-jeans-3157815/",
-      "https://www.pexels.com/photo/photo-of-woman-wearing-blue-denim-jacket-3184412/",
-      "https://www.pexels.com/photo/photo-of-woman-in-red-sweater-3182786/",
+      "https://images.pexels.com/photos/16864831/pexels-photo-16864831.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://images.pexels.com/photos/16864835/pexels-photo-16864835.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://images.pexels.com/photos/16864836/pexels-photo-16864836.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     ],
   },
   {
     id: 2,
     firstname: "Emily",
-    city: "London",
+    city: "Paris",
     age: 28,
     gender: "Female",
     sexuality: "Heterosexual",
@@ -26,15 +26,15 @@ export const allUsers = [
     description:
       "Passionate graphic designer creating visually stunning designs.",
     pictures: [
-      "https://www.pexels.com/photo/photo-of-woman-with-black-and-red-blazer-3173554/",
-      "https://www.pexels.com/photo/photo-of-woman-wearing-white-top-3173553/",
-      "https://www.pexels.com/photo/photo-of-woman-wearing-white-and-black-stripe-shirt-3182787/",
+      "https://images.pexels.com/photos/1642228/pexels-photo-1642228.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://images.pexels.com/photos/1898555/pexels-photo-1898555.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://images.pexels.com/photos/1958734/pexels-photo-1958734.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     ],
   },
   {
     id: 3,
-    firstname: "John",
-    city: "New York",
+    firstname: "Terence",
+    city: "Atlanta",
     age: 30,
     gender: "Male",
     sexuality: "Heterosexual",
@@ -42,15 +42,15 @@ export const allUsers = [
     description:
       "Experienced software engineer proficient in multiple programming languages.",
     pictures: [
-      "https://www.pexels.com/photo/person-wearing-blue-denim-jacket-and-black-denim-jeans-3157815/",
-      "https://www.pexels.com/photo/photo-of-woman-wearing-blue-denim-jacket-3184412/",
-      "https://www.pexels.com/photo/photo-of-woman-in-red-sweater-3182786/",
+      "https://images.pexels.com/photos/16864831/pexels-photo-16864831.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://images.pexels.com/photos/16864835/pexels-photo-16864835.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://images.pexels.com/photos/16864836/pexels-photo-16864836.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     ],
   },
   {
     id: 4,
-    firstname: "Emily",
-    city: "London",
+    firstname: "Martha",
+    city: "Sao Paulo",
     age: 28,
     gender: "Female",
     sexuality: "Heterosexual",
@@ -58,15 +58,15 @@ export const allUsers = [
     description:
       "Passionate graphic designer creating visually stunning designs.",
     pictures: [
-      "https://www.pexels.com/photo/photo-of-woman-with-black-and-red-blazer-3173554/",
-      "https://www.pexels.com/photo/photo-of-woman-wearing-white-top-3173553/",
-      "https://www.pexels.com/photo/photo-of-woman-wearing-white-and-black-stripe-shirt-3182787/",
+      "https://images.pexels.com/photos/1642228/pexels-photo-1642228.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://images.pexels.com/photos/1898555/pexels-photo-1898555.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://images.pexels.com/photos/1958734/pexels-photo-1958734.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     ],
   },
   {
     id: 5,
-    firstname: "John",
-    city: "New York",
+    firstname: "Leon",
+    city: "London",
     age: 30,
     gender: "Male",
     sexuality: "Heterosexual",
@@ -74,15 +74,15 @@ export const allUsers = [
     description:
       "Experienced software engineer proficient in multiple programming languages.",
     pictures: [
-      "https://www.pexels.com/photo/person-wearing-blue-denim-jacket-and-black-denim-jeans-3157815/",
-      "https://www.pexels.com/photo/photo-of-woman-wearing-blue-denim-jacket-3184412/",
-      "https://www.pexels.com/photo/photo-of-woman-in-red-sweater-3182786/",
+      "https://images.pexels.com/photos/16864831/pexels-photo-16864831.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://images.pexels.com/photos/16864835/pexels-photo-16864835.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://images.pexels.com/photos/16864836/pexels-photo-16864836.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     ],
   },
   {
     id: 6,
-    firstname: "Emily",
-    city: "London",
+    firstname: "Julia",
+    city: "New York",
     age: 28,
     gender: "Female",
     sexuality: "Heterosexual",
@@ -90,9 +90,9 @@ export const allUsers = [
     description:
       "Passionate graphic designer creating visually stunning designs.",
     pictures: [
-      "https://www.pexels.com/photo/photo-of-woman-with-black-and-red-blazer-3173554/",
-      "https://www.pexels.com/photo/photo-of-woman-wearing-white-top-3173553/",
-      "https://www.pexels.com/photo/photo-of-woman-wearing-white-and-black-stripe-shirt-3182787/",
+      "https://images.pexels.com/photos/1642228/pexels-photo-1642228.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://images.pexels.com/photos/1898555/pexels-photo-1898555.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://images.pexels.com/photos/1958734/pexels-photo-1958734.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     ],
   },
 ];
