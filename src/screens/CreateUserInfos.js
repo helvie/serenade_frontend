@@ -17,8 +17,11 @@ import Header from "../components/Header";
 import ChooseBirthDate from "../components/ChooseBirthDate";
 import moment from "moment";
 import ChooseYourCity from "../components/ChooseYourCity";
+import { useDispatch } from "react-redux";
+import { addUserInfosToStore } from "../../reducers/User";
 
 const CreateUserInfos = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [imaginaryName, setImaginaryName] = useState("");
   const [dayOfBirth, setDayOfBirth] = useState("");
@@ -124,12 +127,19 @@ const CreateUserInfos = ({ navigation }) => {
       .date(dayOfBirth);
 
     //If all the inputs are valid, this function will be called
-    console.log({
-      name,
-      imaginaryName,
-      userDateOfBirth,
-      userCity,
-    });
+    dispatch(
+      addUserInfosToStore({
+        name,
+        imaginaryName,
+        birthdate: userDateOfBirth,
+        city: userCity.name,
+        location: {
+          longitude: userCity.lng,
+          latitude: userCity.lat,
+        },
+      })
+    );
+
     // call the function to reset input fields
     resetInputFields();
     navigation.navigate("SetProfilePictures");

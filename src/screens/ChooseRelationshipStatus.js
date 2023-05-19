@@ -13,7 +13,11 @@ import { RadioButton, Snackbar } from "react-native-paper";
 import RadioButtonItem from "../components/RadioButtonItem";
 import { isInputEmpty } from "../../utils/validateInputsContent";
 import Header from "../components/Header";
+import { useDispatch } from "react-redux";
+import { addRelationshipStatusToStore } from "../../reducers/User";
+
 const ChooseRelationshipStatus = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
   //Used to set the snack bar visibility
   const [isSnackBarVisible, setIsSnackBarVisible] = useState(false);
@@ -32,7 +36,7 @@ const ChooseRelationshipStatus = ({ navigation }) => {
       setErrorMessage("Please choose something");
       return;
     }
-    console.log(inputValue);
+    dispatch(addRelationshipStatusToStore(inputValue));
     navigation.navigate("CreateUserInfos");
   };
   return (
