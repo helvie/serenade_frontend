@@ -14,11 +14,14 @@ import { Snackbar } from "react-native-paper";
 import InProgressBar from "../components/InProgressBar";
 import SelectPicture from "../components/SelectPicture";
 import Header from "../components/Header";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addPicturesToStore } from "../../reducers/User";
+import { signupUser } from "../../utils/authenticateUser";
 
 const SetProfilePicture = ({ navigation }) => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
+
   const [userPictures, setUserPictures] = useState([]);
 
   //Used to track user picture in SelectPicture component via inverse data flow
@@ -50,7 +53,22 @@ const SetProfilePicture = ({ navigation }) => {
     }
     //if Validation are passed then we can send the user to the next screen
     dispatch(addPicturesToStore(userPictures));
-    navigation.navigate("TabNavigator");
+
+    if (user.pictures) {
+      (async () => {
+        const data = await signupUser(user);
+        // Check if the response is successful by checking if the result property of the response object is true
+        if (data.result === true) {
+          setIsSnackBarVisible(true);
+          setErrorMessage(data.user);
+        } else {
+          setIsSnackBarVisible(true);
+          setErrorMessage(data.message + "😨");
+          return;
+        }
+      })();
+    }
+    //navigation.navigate("TabNavigator");
   };
 
   //Initialize the 6 selected pictures component to display

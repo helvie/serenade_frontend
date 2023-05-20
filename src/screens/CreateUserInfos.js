@@ -133,8 +133,8 @@ const CreateUserInfos = ({ navigation }) => {
         name,
         imaginaryName,
         birthdate: userDateOfBirth,
-        city: userCity.name,
         location: {
+          city: userCity.name,
           longitude: userCity.lng,
           latitude: userCity.lat,
         },

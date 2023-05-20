@@ -9,8 +9,7 @@ const initialState = {
     name: null,
     imaginaryName: null,
     birthdate: null,
-    city: null,
-    location: { longitude: null, latitude: null },
+    location: { city: null, longitude: null, latitude: null },
     pictures: [],
     token: null,
   },
@@ -38,7 +37,7 @@ export const UserSlice = createSlice({
       state.value.name = action.payload.name;
       state.value.imaginaryName = action.payload.imaginaryName;
       state.value.birthdate = action.payload.birthdate;
-      state.value.city = action.payload.city;
+      state.value.location.city = action.payload.location.city;
       state.value.location.longitude = action.payload.location.longitude;
       state.value.location.latitude = action.payload.location.latitude;
     },
