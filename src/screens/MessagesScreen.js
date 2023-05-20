@@ -64,6 +64,7 @@ const MessagesScreen = ({ navigation }) => {
   const message = photosData1.map((data, i) => {
     return (
       <TouchableOpacity
+        key={i}
         onPress={() => {
           navigation.navigate("ChatScreen");
         }}

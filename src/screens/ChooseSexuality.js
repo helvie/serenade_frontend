@@ -44,7 +44,10 @@ const ChooseYourSexuality = ({ navigation }) => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView
           style={globalStyles.container}
-          contentContainerStyle={{ justifyContent: "space-between" }}
+          contentContainerStyle={{
+            justifyContent: "space-between",
+            paddingBottom: 50,
+          }}
         >
           <View>
             <Header />

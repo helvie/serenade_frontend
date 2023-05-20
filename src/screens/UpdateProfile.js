@@ -138,7 +138,7 @@ const UpdateProfile = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={globalStyles.screen} className="mt-5 mb-10">
+    <KeyboardAvoidingView style={globalStyles.screen} className="pt-5 pb-10">
       <ScrollView style={globalStyles.container}>
         <View className="flex-row justify-between items-center">
           <View className="w-3/5">

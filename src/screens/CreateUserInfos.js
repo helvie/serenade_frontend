@@ -124,7 +124,8 @@ const CreateUserInfos = ({ navigation }) => {
     const userDateOfBirth = moment()
       .year(yearOfBirth)
       .month(monthOfBirth - 1)
-      .date(dayOfBirth);
+      .date(dayOfBirth)
+      .toISOString();
 
     //If all the inputs are valid, this function will be called
     dispatch(
