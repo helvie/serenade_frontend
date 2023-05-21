@@ -7,7 +7,7 @@ import {
   ScrollView,
   FlatList,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import globalStyles from "../../utils/globalStyles";
 import MainButton from "../components/MainButton";
 import { Snackbar } from "react-native-paper";
@@ -16,13 +16,15 @@ import SelectPicture from "../components/SelectPicture";
 import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { addPicturesToStore } from "../../reducers/User";
-import { signupUser } from "../../utils/authenticateUser";
+import { signupUser, updateUserPictures } from "../../utils/authenticateUser";
 
 const SetProfilePicture = ({ navigation }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
 
   const [userPictures, setUserPictures] = useState([]);
+
+  const [picturesAddedToStore, setPicturesAddedToStore] = useState(false);
 
   //Used to track user picture in SelectPicture component via inverse data flow
   const getUserPictures = (value) => {
@@ -44,6 +46,47 @@ const SetProfilePicture = ({ navigation }) => {
     setErrorMessage("");
   };
 
+  useEffect(() => {
+    // we wait our handleSubmit function to dispatch the user pictures to the redux store
+    // and then set the picturesAddedToStore state to true so that we can upload the pictures to cloudinary
+    if (picturesAddedToStore) {
+      (async () => {
+        // we Signup our user using our signup user module in  modules/authenticateUser.js
+        const data = await signupUser(user);
+        // Check if the response is successful and access the user token
+        if (data.result === true) {
+          const currentUser = data.user;
+          const userToken = data.userToken;
+
+          // if we've got the token of the user, we redirect user to the home screen,
+          // passing dynamically his token and his properties
+          if (userToken) {
+            navigation.navigate("TabNavigator", { currentUser, userToken });
+          } else {
+            // otherwise we stop our signup process and show an error message
+            setIsSnackBarVisible(true);
+            setErrorMessage("Something went wrong during your signup 😨");
+            return;
+          }
+
+          // in the background we update his document in database with his pictures form the redux store
+          // we don't do this in the signupUser function because this procress is very slow
+          // and can take a long time to complete
+          updateUserPictures(userToken, user.pictures).then((data) => {
+            if (data.result === true) {
+              return;
+            } else {
+              console.log(data.message);
+            }
+          });
+        } else {
+          setIsSnackBarVisible(true);
+          setErrorMessage(data.message + "😨");
+        }
+      })();
+    }
+  }, [user, picturesAddedToStore]);
+
   const handleSubmit = () => {
     //Some validation to make sure the user has selected at least 3 pictures
     if (userPictures.length < 2) {
@@ -51,24 +94,9 @@ const SetProfilePicture = ({ navigation }) => {
       setErrorMessage("Please select at least 2 pictures");
       return;
     }
-    //if Validation are passed then we can send the user to the next screen
+    // If validation is passed, add pictures to the store
     dispatch(addPicturesToStore(userPictures));
-
-    if (user.pictures) {
-      (async () => {
-        const data = await signupUser(user);
-        // Check if the response is successful by checking if the result property of the response object is true
-        if (data.result === true) {
-          setIsSnackBarVisible(true);
-          setErrorMessage(data.user);
-        } else {
-          setIsSnackBarVisible(true);
-          setErrorMessage(data.message + "😨");
-          return;
-        }
-      })();
-    }
-    //navigation.navigate("TabNavigator");
+    setPicturesAddedToStore(true);
   };
 
   //Initialize the 6 selected pictures component to display
