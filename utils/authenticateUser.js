@@ -39,6 +39,30 @@ const signupUser = async ({
   }
 };
 
+const loginUser = async ({ email, password }) => {
+  try {
+    // create an object userCredentials with user data that we receive as parameters of our function
+    const userCredentials = {
+      email: email,
+      password: password,
+    };
+
+    // Make the fetch request with the FormData object as request body
+    const response = await fetch("http://192.168.43.62:3000/users/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userCredentials),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const updateUserPictures = async (usertoken, arrayOfPictures) => {
   try {
     // Create a new FormData object
@@ -72,4 +96,4 @@ const updateUserPictures = async (usertoken, arrayOfPictures) => {
   }
 };
 
-module.exports = { signupUser, updateUserPictures };
+module.exports = { signupUser, loginUser, updateUserPictures };

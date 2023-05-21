@@ -18,10 +18,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import UserPartner from "../components/UserPartner";
 import { Divider } from "react-native-paper";
-
-const screenWidth = Dimensions.get("window").width;
+import { useSelector } from "react-redux";
 
 const HomeScreen = ({ navigation, itsAMatch }) => {
+  const currentUserToken = useSelector((state) => state.user.token);
+  console.log(currentUserToken);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const closeSearchSettings = () => {
     setSettingsOpen(false);

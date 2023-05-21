@@ -13,8 +13,12 @@ import MainButton from "../components/MainButton";
 import { Snackbar } from "react-native-paper";
 import { isEmailValid, isInputEmpty } from "../../utils/validateInputsContent";
 import Header from "../components/Header";
+import { loginUser } from "../../utils/authenticateUser";
+import { useDispatch } from "react-redux";
+import { addTokenToStore, clearStore } from "../../reducers/User";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -44,7 +48,7 @@ const LoginScreen = () => {
   //Used for set error message in the snack bar
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     //Some validations to make sure that the email and password are not empty and valid
     if (isInputEmpty(email) || isInputEmpty(password)) {
       setIsSnackBarVisible(true);
@@ -56,10 +60,20 @@ const LoginScreen = () => {
       setErrorMessage("Your email address is not valid");
       return;
     }
-    //If the email and password are valid, this function will be called
-    console.log({ email, password });
-    // call the function to reset input fields
-    resetInputFields();
+    //If the email and password are valid, we login the user, dispatch his token ins the redux store
+    //and redirect him to the home screen
+    const data = await loginUser({ email, password });
+    if (data.result === true) {
+      const currentUser = data.user;
+      const currentUserToken = data.userToken;
+      dispatch(addTokenToStore(currentUserToken));
+      dispatch(clearStore());
+      resetInputFields();
+      navigation.navigate("TabNavigator", { currentUser });
+    } else {
+      setIsSnackBarVisible(true);
+      setErrorMessage(data.message);
+    }
   };
 
   return (

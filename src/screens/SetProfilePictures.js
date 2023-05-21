@@ -15,7 +15,11 @@ import InProgressBar from "../components/InProgressBar";
 import SelectPicture from "../components/SelectPicture";
 import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
-import { addPicturesToStore } from "../../reducers/User";
+import {
+  addPicturesToStore,
+  addTokenToStore,
+  clearStore,
+} from "../../reducers/User";
 import { signupUser, updateUserPictures } from "../../utils/authenticateUser";
 
 const SetProfilePicture = ({ navigation }) => {
@@ -56,12 +60,14 @@ const SetProfilePicture = ({ navigation }) => {
         // Check if the response is successful and access the user token
         if (data.result === true) {
           const currentUser = data.user;
-          const userToken = data.userToken;
+          const currentUserToken = data.userToken;
 
           // if we've got the token of the user, we redirect user to the home screen,
           // passing dynamically his token and his properties
-          if (userToken) {
-            navigation.navigate("TabNavigator", { currentUser, userToken });
+          if (currentUser && currentUserToken) {
+            dispatch(addTokenToStore(currentUserToken));
+            dispatch(clearStore());
+            navigation.navigate("TabNavigator", { currentUser });
           } else {
             // otherwise we stop our signup process and show an error message
             setIsSnackBarVisible(true);
@@ -72,7 +78,7 @@ const SetProfilePicture = ({ navigation }) => {
           // in the background we update his document in database with his pictures form the redux store
           // we don't do this in the signupUser function because this procress is very slow
           // and can take a long time to complete
-          updateUserPictures(userToken, user.pictures).then((data) => {
+          updateUserPictures(currentUserToken, user.pictures).then((data) => {
             if (data.result === true) {
               return;
             } else {

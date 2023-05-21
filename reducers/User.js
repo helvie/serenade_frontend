@@ -11,8 +11,8 @@ const initialState = {
     birthdate: null,
     location: { city: null, longitude: null, latitude: null },
     pictures: [],
-    token: null,
   },
+  token: null,
 };
 
 export const UserSlice = createSlice({
@@ -44,6 +44,12 @@ export const UserSlice = createSlice({
     addPicturesToStore: (state, action) => {
       state.value.pictures = action.payload;
     },
+    addTokenToStore: (state, action) => {
+      state.token = action.payload;
+    },
+    clearStore: (state) => {
+      state.value = initialState.value;
+    },
   },
 });
 
@@ -54,5 +60,7 @@ export const {
   addRelationshipStatusToStore,
   addSexualityToStore,
   addUserInfosToStore,
+  addTokenToStore,
+  clearStore,
 } = UserSlice.actions;
 export default UserSlice.reducer;
