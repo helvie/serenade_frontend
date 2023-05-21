@@ -15,7 +15,7 @@ import { isEmailValid, isInputEmpty } from "../../utils/validateInputsContent";
 import Header from "../components/Header";
 import { loginUser } from "../../utils/authenticateUser";
 import { useDispatch } from "react-redux";
-import { addTokenToStore, clearStore } from "../../reducers/User";
+import { addTokenToStore } from "../../reducers/User";
 
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -64,12 +64,10 @@ const LoginScreen = ({ navigation }) => {
     //and redirect him to the home screen
     const data = await loginUser({ email, password });
     if (data.result === true) {
-      const currentUser = data.user;
-      const currentUserToken = data.userToken;
-      dispatch(addTokenToStore(currentUserToken));
-      dispatch(clearStore());
+      const userToken = data.userToken;
+      dispatch(addTokenToStore(userToken));
       resetInputFields();
-      navigation.navigate("TabNavigator", { currentUser });
+      navigation.navigate("TabNavigator");
     } else {
       setIsSnackBarVisible(true);
       setErrorMessage(data.message);

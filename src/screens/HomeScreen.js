@@ -21,8 +21,8 @@ import { Divider } from "react-native-paper";
 import { useSelector } from "react-redux";
 
 const HomeScreen = ({ navigation, itsAMatch }) => {
-  const currentUserToken = useSelector((state) => state.user.token);
-  console.log(currentUserToken);
+  const userToken = useSelector((state) => state.user.token);
+  console.log(userToken);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const closeSearchSettings = () => {
     setSettingsOpen(false);

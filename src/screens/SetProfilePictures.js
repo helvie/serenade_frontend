@@ -59,15 +59,13 @@ const SetProfilePicture = ({ navigation }) => {
         const data = await signupUser(user);
         // Check if the response is successful and access the user token
         if (data.result === true) {
-          const currentUser = data.user;
-          const currentUserToken = data.userToken;
+          const userToken = data.userToken;
 
           // if we've got the token of the user, we redirect user to the home screen,
-          // passing dynamically his token and his properties
-          if (currentUser && currentUserToken) {
-            dispatch(addTokenToStore(currentUserToken));
-            dispatch(clearStore());
-            navigation.navigate("TabNavigator", { currentUser });
+          // and dispatch the user token to the redux store
+          if (userToken) {
+            dispatch(addTokenToStore(userToken));
+            navigation.navigate("TabNavigator");
           } else {
             // otherwise we stop our signup process and show an error message
             setIsSnackBarVisible(true);
@@ -78,9 +76,11 @@ const SetProfilePicture = ({ navigation }) => {
           // in the background we update his document in database with his pictures form the redux store
           // we don't do this in the signupUser function because this procress is very slow
           // and can take a long time to complete
-          updateUserPictures(currentUserToken, user.pictures).then((data) => {
+          updateUserPictures(userToken, user.pictures).then((data) => {
+            // when we have successfully updated the pictures in the database, we clear the store
+            // except the user token
             if (data.result === true) {
-              return;
+              dispatch(clearStore());
             } else {
               console.log(data.message);
             }
