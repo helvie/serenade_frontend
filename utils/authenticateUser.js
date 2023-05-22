@@ -24,7 +24,7 @@ const signupUser = async ({
     };
 
     // Make the fetch request with the FormData object as request body
-    const response = await fetch("http://192.168.43.62:3000/users/signup", {
+    const response = await fetch("http://192.168.10.140:3000/users/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +48,7 @@ const loginUser = async ({ email, password }) => {
     };
 
     // Make the fetch request with the FormData object as request body
-    const response = await fetch("http://192.168.43.62:3000/users/signin", {
+    const response = await fetch("http://192.168.10.140:3000/users/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -82,7 +82,7 @@ const updateUserPictures = async (usertoken, arrayOfPictures) => {
 
     // Make the fetch request with the FormData object as request body
     const response = await fetch(
-      "http://192.168.43.62:3000/users/uploadPictures",
+      "http://192.168.10.140:3000/users/uploadPictures",
       {
         method: "POST",
         body: formData,

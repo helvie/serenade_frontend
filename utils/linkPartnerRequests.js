@@ -1,7 +1,7 @@
 const searchUserPartner = async (partnerImaginaryName) => {
   try {
     const response = await fetch(
-      `http://192.168.43.62:3000/users/partner/search?partnerImaginaryName=${partnerImaginaryName}`
+      `http://192.168.10.140:3000/users/partner/search?partnerImaginaryName=${partnerImaginaryName}`
     );
     const data = await response.json();
     return data;
@@ -17,7 +17,7 @@ const addUserPartner = async (userToken, partnerImaginaryName) => {
       partnerImaginaryName,
     };
     const response = await fetch(
-      "http://192.168.43.62:3000/users/partner/add",
+      "http://192.168.10.140:3000/users/partner/add",
       {
         method: "POST",
         headers: {
@@ -36,7 +36,7 @@ const addUserPartner = async (userToken, partnerImaginaryName) => {
 
 const getAllUserPartners = async (userToken) => {
   try {
-    const response = await fetch("http://192.168.43.62:3000/users/partners", {
+    const response = await fetch("http://192.168.10.140:3000/users/partners", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const removeUserPartner = async (userToken, partnerImaginaryName) => {
       partnerImaginaryName,
     };
     const response = await fetch(
-      "http://192.168.43.62:3000/users/partner/remove",
+      "http://192.168.10.140:3000/users/partner/remove",
       {
         method: "POST",
         headers: {

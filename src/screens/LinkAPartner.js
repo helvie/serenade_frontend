@@ -32,7 +32,7 @@ const LinkAPartner = ({ openLinkPartner, closeLinkPartner }) => {
   const [partnerFounded, setPartnerFounded] = useState(false);
   const [allUserPartners, setAllUserPartners] = useState([]);
   const [partnerAdded, setPartnerAdded] = useState(null);
-  const [partnerRemovedCount, setPartnerRemovedCount] = useState(0);
+  const [partnerRemoved, setPartnerRemoved] = useState(null);
 
   //This useEffect is responsible for raising the modal when the keyboard is open and lowering it when it is closed
   useEffect(() => {
@@ -61,14 +61,13 @@ const LinkAPartner = ({ openLinkPartner, closeLinkPartner }) => {
   useEffect(() => {
     (async () => {
       const data = await getAllUserPartners(userToken);
-      if (data.result === true) {
-        console.log(data.userPartners);
+      if (data.userPartners) {
         setAllUserPartners(data.userPartners);
       } else {
-        return;
+        setAllUserPartners([]);
       }
     })();
-  }, [partnerAdded, partnerRemovedCount, partnerFounded]);
+  }, [partnerAdded, partnerRemoved]);
 
   const onChangeSearch = (query) => setSearchQuery(query);
 
@@ -100,7 +99,7 @@ const LinkAPartner = ({ openLinkPartner, closeLinkPartner }) => {
   handleRemovePartner = async (partnerImaginaryName) => {
     const data = await removeUserPartner(userToken, partnerImaginaryName);
     if (data.result === true) {
-      setPartnerRemovedCount((prevCount) => prevCount + 1);
+      setPartnerRemoved(partnerImaginaryName);
     } else {
       console.log(data.message);
     }
