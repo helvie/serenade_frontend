@@ -5,7 +5,7 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import globalStyles from "../../utils/globalStyles";
 import { allUsers } from "../../fakeData/allUsers";
 import SearchSettings from "./SearchSettings";
@@ -19,6 +19,7 @@ import { Feather } from "@expo/vector-icons";
 import UserPartner from "../components/UserPartner";
 import { Divider } from "react-native-paper";
 import { useSelector } from "react-redux";
+import { getUserInfos } from "../../utils/authenticateUser";
 
 const HomeScreen = ({ navigation, itsAMatch }) => {
   const userToken = useSelector((state) => state.user.token);
@@ -30,6 +31,17 @@ const HomeScreen = ({ navigation, itsAMatch }) => {
   const openSearchSettings = () => {
     setSettingsOpen(true);
   };
+  const [userInfos, setUserInfos] = useState(null);
+  useEffect(() => {
+    (async () => {
+      const data = await getUserInfos(userToken);
+      if (data.result === true) {
+        setUserInfos(data.user);
+      } else {
+        console.log(data.message);
+      }
+    })();
+  }, []);
   return (
     <View style={globalStyles.screen}>
       <View style={globalStyles.container}>
@@ -43,7 +55,7 @@ const HomeScreen = ({ navigation, itsAMatch }) => {
         <HomeHeader
           navigation={navigation}
           openSearchSettings={openSearchSettings}
-          userPicture="https://images.pexels.com/photos/1382726/pexels-photo-1382726.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          userPicture={userInfos?.pictures[0]}
         />
 
         {/* CardStack responsible for swiping cards */}

@@ -1,5 +1,12 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import globalStyles from "../../utils/globalStyles";
 import { FontAwesome } from "@expo/vector-icons";
 import { Divider } from "react-native-paper";
@@ -9,34 +16,57 @@ import { Feather } from "@expo/vector-icons";
 import Header from "../components/Header";
 import LinkAPartner from "./LinkAPartner";
 import UserPartner from "../components/UserPartner";
+import { useSelector } from "react-redux";
+import { getUserInfos } from "../../utils/authenticateUser";
+import { differenceInYears } from "date-fns";
+import LoadingScreen from "./LoadingScreen";
 
 const ProfileScreen = ({ navigation }) => {
+  const userToken = useSelector((state) => state.user.token);
   const [openLinkPartner, setOpenLinkPartner] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const closeLinkPartner = () => {
     setOpenLinkPartner(false);
   };
-  return (
-    <ScrollView>
-      <LinkAPartner
-        openLinkPartner={openLinkPartner}
-        closeLinkPartner={closeLinkPartner}
-      />
-      <View style={globalStyles.screen}>
-        <View style={globalStyles.container}>
+  const [userInfos, setUserInfos] = useState(null);
+  const age =
+    differenceInYears(new Date(), new Date(userInfos?.birthdate)) ?? undefined;
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      const data = await getUserInfos(userToken);
+      if (data.result === true) {
+        setUserInfos(data.user);
+        setIsLoading(false);
+      } else {
+        console.log(data.message);
+      }
+    })();
+  }, [openLinkPartner]);
+  return isLoading ? (
+    <LoadingScreen />
+  ) : (
+    <View style={globalStyles.screen}>
+      <ScrollView>
+        <LinkAPartner
+          openLinkPartner={openLinkPartner}
+          closeLinkPartner={closeLinkPartner}
+        />
+        <View style={{ paddingHorizontal: 25 }}>
           {/* profile picture and settings icon formatting */}
           <Header />
           <View style={styles.element}>
             <View style={styles.img}>
               <Image
-                source={require("../../assets/Profile.jpg")}
+                source={{ uri: userInfos?.pictures[0] }}
                 style={styles.image}
               />
               <View style={styles.textLoc}>
-                <Text style={[globalStyles.mainText]}>Manu</Text>
+                <Text style={[globalStyles.mainText]}>{userInfos?.name}</Text>
                 <Text style={styles.textLocation}>
                   {" "}
                   <FontAwesome name="map-marker" size={13} color="white" />{" "}
-                  Paris
+                  {userInfos?.location.city}
                 </Text>
               </View>
             </View>
@@ -52,16 +82,21 @@ const ProfileScreen = ({ navigation }) => {
           </View>
           {/* formatting of profile cards */}
           <Text
-            style={[globalStyles.titleText, { marginTop: 10, marginBottom: 5 }]}
+            style={[
+              globalStyles.titleText,
+              { marginTop: 10, marginBottom: 15 },
+            ]}
           >
             About you
           </Text>
           <View style={styles.ChipContainer}>
-            <Pill content="25yo" />
-            <Pill content="Man" />
-            <Pill content="Football" />
-            <Pill content="5'11" />
-            <Pill content="French" />
+            <Pill content={`${age}yo`} />
+            <Pill content={userInfos?.gender} />
+            <Pill content={userInfos?.sexuality} />
+            <Pill
+              content={`Your imaginary name: ${userInfos?.imaginaryName}`}
+            />
+            <Pill content={userInfos?.email} />
           </View>
         </View>
         {/* Divider for section */}
@@ -69,15 +104,18 @@ const ProfileScreen = ({ navigation }) => {
           style={{ backgroundColor: "white", height: 1, width: "100%" }}
         />
         {/* Description of user */}
-        <View style={styles.desc}>
-          <Text style={[globalStyles.titleText, { justifyContent: "center" }]}>
-            What people need to know about you{" "}
-          </Text>
-          <Text style={[globalStyles.mainText, { marginTop: 10 }]}>
-            Fun-loving and adventurous woman seeking a partner in crime to
-            explore the world with.
-          </Text>
-        </View>
+        {userInfos?.description && (
+          <View style={styles.desc}>
+            <Text
+              style={[globalStyles.titleText, { justifyContent: "center" }]}
+            >
+              What people need to know about you{" "}
+            </Text>
+            <Text style={[globalStyles.mainText, { marginTop: 10 }]}>
+              {userInfos?.description}
+            </Text>
+          </View>
+        )}
         {/* Divider for section */}
         <Divider
           style={{ backgroundColor: "white", height: 1, width: "100%" }}
@@ -96,107 +134,67 @@ const ProfileScreen = ({ navigation }) => {
                   color="white"
                   style={{ marginRight: 4 }}
                 />
-                <Text style={[globalStyles.mainText, {}]}>Add a partner</Text>
+                <Text style={[globalStyles.mainText, { marginBottom: 15 }]}>
+                  Link your partners
+                </Text>
               </View>
               <FontAwesome name="angle-right" size={25} color="white" />
             </View>
           </TouchableOpacity>
-          <Text
-            style={[
-              globalStyles.titleText,
-              { marginTop: 15, marginBottom: 15 },
-            ]}
-          >
-            Your relationships:
-          </Text>
-          <UserPartner
-            name="Manu"
-            picture="https://images.pexels.com/photos/1642228/pexels-photo-1642228.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
-          <UserPartner
-            name="Manu"
-            picture="https://images.pexels.com/photos/1642228/pexels-photo-1642228.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
+          {userInfos?.myRelationships.length > 0 && (
+            <>
+              <Text
+                style={{
+                  ...globalStyles.titleText,
+                  marginTop: 15,
+                  marginBottom: 15,
+                }}
+              >
+                {" "}
+                Your relationships:{" "}
+              </Text>
+
+              <FlatList
+                scrollEnabled={false}
+                data={userInfos.myRelationships}
+                keyExtractor={(item) => item.token}
+                renderItem={({ item }) => (
+                  <UserPartner name={item.name} picture={item.pictures[0]} />
+                )}
+              />
+            </>
+          )}
         </View>
         <Divider
           style={{ backgroundColor: "white", height: 2, width: "100%" }}
         />
         {/* photos of the users */}
-        <View style={styles.desc}>
-          <Text style={[globalStyles.titleText, { marginBottom: 15 }]}>
-            Your pictures
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-
-              flexWrap: "wrap",
-            }}
-          >
-            <Image
-              source={require("../../assets/Profile.jpg")}
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 10,
-                marginBottom: 10,
-                marginRight: 10,
-              }}
-            />
-            <Image
-              source={require("../../assets/Profile.jpg")}
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 10,
-                marginBottom: 10,
-                marginRight: 10,
-              }}
-            />
-            <Image
-              source={require("../../assets/Profile.jpg")}
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 10,
-                marginBottom: 10,
-                marginRight: 10,
-              }}
-            />
-            <Image
-              source={require("../../assets/Profile.jpg")}
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 10,
-                marginBottom: 10,
-                marginRight: 10,
-              }}
-            />
-            <Image
-              source={require("../../assets/Profile.jpg")}
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 10,
-                marginBottom: 10,
-                marginRight: 10,
-              }}
-            />
-            <Image
-              source={require("../../assets/Profile.jpg")}
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 10,
-                marginBottom: 10,
-                marginRight: 10,
-              }}
-            />
-          </View>
-        </View>
-      </View>
-    </ScrollView>
+        {userInfos?.pictures.length > 0 && (
+          <>
+            <View style={styles.desc}>
+              <Text style={[globalStyles.titleText, { marginBottom: 15 }]}>
+                All your pictures:
+              </Text>
+              <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+                {userInfos.pictures.map((item, index) => (
+                  <Image
+                    key={index}
+                    source={{ uri: item }}
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 10,
+                      marginBottom: 10,
+                      marginRight: 10,
+                    }}
+                  />
+                ))}
+              </View>
+            </View>
+          </>
+        )}
+      </ScrollView>
+    </View>
   );
 };
 
@@ -230,6 +228,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     textAlign: "center",
+    marginBottom: 10,
   },
   section: {
     flexDirection: "row",

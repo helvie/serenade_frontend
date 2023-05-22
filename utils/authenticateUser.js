@@ -1,3 +1,5 @@
+const url = "http://10.188.38.189:3000";
+
 const signupUser = async ({
   email,
   password,
@@ -24,7 +26,7 @@ const signupUser = async ({
     };
 
     // Make the fetch request with the FormData object as request body
-    const response = await fetch("http://192.168.10.140:3000/users/signup", {
+    const response = await fetch(`${url}/users/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +50,7 @@ const loginUser = async ({ email, password }) => {
     };
 
     // Make the fetch request with the FormData object as request body
-    const response = await fetch("http://192.168.10.140:3000/users/signin", {
+    const response = await fetch(`${url}/users/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -81,13 +83,10 @@ const updateUserPictures = async (usertoken, arrayOfPictures) => {
     formData.append("userToken", JSON.stringify(usertoken));
 
     // Make the fetch request with the FormData object as request body
-    const response = await fetch(
-      "http://192.168.10.140:3000/users/uploadPictures",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch(`${url}/users/uploadPictures`, {
+      method: "POST",
+      body: formData,
+    });
 
     const data = await response.json();
     return data;
@@ -96,4 +95,19 @@ const updateUserPictures = async (usertoken, arrayOfPictures) => {
   }
 };
 
-module.exports = { signupUser, loginUser, updateUserPictures };
+const getUserInfos = async (userToken) => {
+  try {
+    const response = await fetch(`${url}/users/displayProfile`, {
+      method: "POST",
+      headers: { "content-Type": "application/json" },
+      body: JSON.stringify({ userToken }),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { signupUser, loginUser, updateUserPictures, getUserInfos };

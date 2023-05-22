@@ -17,7 +17,11 @@ const UserAvatar = (props) => {
           <Image
             style={[styles.avatarImage, { width: size, height: size }]}
             className="rounded-full"
-            source={{ uri: avatarImage }}
+            source={
+              avatarImage
+                ? { uri: avatarImage }
+                : require(`../../assets/images/avatar.jpg`)
+            }
           />
         </>
       )}
