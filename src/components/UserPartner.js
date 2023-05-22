@@ -7,7 +7,11 @@ const UserPartner = ({ name, picture }) => {
     <TouchableOpacity className="mb-4">
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Image
-          source={{ uri: picture }}
+          source={
+            picture
+              ? { uri: picture }
+              : { uri: require("../../assets/images/avatar.jpg") }
+          }
           className="rounded-full mr-2 w-10 h-10"
         />
         <Text style={[globalStyles.mainText, { marginRight: 10 }]}>{name}</Text>

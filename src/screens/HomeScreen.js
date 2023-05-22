@@ -22,7 +22,7 @@ import { useSelector } from "react-redux";
 
 const HomeScreen = ({ navigation, itsAMatch }) => {
   const userToken = useSelector((state) => state.user.token);
-  console.log(userToken);
+
   const [settingsOpen, setSettingsOpen] = useState(false);
   const closeSearchSettings = () => {
     setSettingsOpen(false);
