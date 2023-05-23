@@ -1,13 +1,6 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  FlatList,
-} from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import globalStyles from "../../utils/globalStyles";
-import { allUsers } from "../../fakeData/allUsers";
 import SearchSettings from "./SearchSettings";
 import ProfileCarousel from "../components/ProfileCarousel";
 import CardStack, { Card } from "react-native-card-stack-swiper";
@@ -18,7 +11,12 @@ import { Feather } from "@expo/vector-icons";
 import UserPartner from "../components/UserPartner";
 import { Divider } from "react-native-paper";
 import { useSelector } from "react-redux";
-import { getUserInfos, getRecommendations } from "../../utils/authenticateUser";
+import {
+  getUserInfos,
+  getRecommendations,
+  createADislike,
+  createALike,
+} from "../../utils/authenticateUser";
 import LoadingScreen from "./LoadingScreen";
 import NoMoreProfiles from "./NoMoreProfiles";
 import { age } from "../../utils/transformDate";
@@ -101,7 +99,28 @@ const HomeScreen = ({ navigation }) => {
               this.swiper = swiper;
             }}
             horizontalThreshold={50}
-            onSwipedRight={(card) => console.log(card)}
+            onSwipedRight={async (cardIndex) => {
+              const data = await createALike(
+                userToken,
+                recommendations[cardIndex].token
+              );
+              if (data.result === true) {
+                return;
+              } else {
+                console.log(data.message);
+              }
+            }}
+            onSwipedLeft={async (cardIndex) => {
+              const data = await createADislike(
+                userToken,
+                recommendations[cardIndex].token
+              );
+              if (data.result === true) {
+                return;
+              } else {
+                console.log(data.message);
+              }
+            }}
             renderNoMoreCards={() => {
               return <NoMoreProfiles />;
             }}
@@ -186,7 +205,6 @@ const HomeScreen = ({ navigation }) => {
                         <View>
                           <TouchableOpacity
                             onPress={() => {
-                              console.log("handleLike");
                               swiper.swipeRight();
                             }}
                             className="w-10 h-10 mb-4 bg-white rounded-full justify-center items-center"
@@ -198,7 +216,7 @@ const HomeScreen = ({ navigation }) => {
                             />
                           </TouchableOpacity>
                           <TouchableOpacity
-                            onPress={() => console.log("handleDislike")}
+                            onPress={() => swiper.swipeLeft()}
                             className="w-10 h-10 bg-white rounded-full justify-center items-center"
                           >
                             <Feather

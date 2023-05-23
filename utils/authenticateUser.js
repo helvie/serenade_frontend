@@ -155,6 +155,42 @@ const getRecommendations = async (userToken) => {
   }
 };
 
+const createALike = async (userToken, likedUserToken) => {
+  try {
+    const response = await fetch(`${url}/users/action/like`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ userToken, likedUserToken }),
+    });
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const createADislike = async (userToken, dislikedUserToken) => {
+  try {
+    const response = await fetch(`${url}/users/action/dislike`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ userToken, dislikedUserToken }),
+    });
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   signupUser,
   loginUser,
@@ -163,4 +199,6 @@ module.exports = {
   updatedUserInfos,
   saveSearchSettings,
   getRecommendations,
+  createALike,
+  createADislike,
 };
