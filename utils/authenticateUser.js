@@ -110,4 +110,24 @@ const getUserInfos = async (userToken) => {
   }
 };
 
-module.exports = { signupUser, loginUser, updateUserPictures, getUserInfos };
+const updatedUserInfos = async (userInfos) => {
+  try {
+    const response = await fetch(`${url}/users/updateProfile`, {
+      method: "POST",
+      headers: { "content-Type": "application/json" },
+      body: JSON.stringify(userInfos),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = {
+  signupUser,
+  loginUser,
+  updateUserPictures,
+  getUserInfos,
+  updatedUserInfos,
+};

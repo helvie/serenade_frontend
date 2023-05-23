@@ -18,19 +18,23 @@ import LinkAPartner from "./LinkAPartner";
 import UserPartner from "../components/UserPartner";
 import { useSelector } from "react-redux";
 import { getUserInfos } from "../../utils/authenticateUser";
-import { differenceInYears } from "date-fns";
+import { age } from "../../utils/transformDate";
 import LoadingScreen from "./LoadingScreen";
+import { useIsFocused } from "@react-navigation/native";
 
 const ProfileScreen = ({ navigation }) => {
   const userToken = useSelector((state) => state.user.token);
+  // Is used to fire useEffect every time the screen is rendered
+  const isFocused = useIsFocused();
   const [openLinkPartner, setOpenLinkPartner] = useState(false);
+  const [userInfos, setUserInfos] = useState(null);
+  const userAge = age(userInfos?.birthdate) ?? undefined;
   const [isLoading, setIsLoading] = useState(false);
+
   const closeLinkPartner = () => {
     setOpenLinkPartner(false);
   };
-  const [userInfos, setUserInfos] = useState(null);
-  const age =
-    differenceInYears(new Date(), new Date(userInfos?.birthdate)) ?? undefined;
+
   useEffect(() => {
     (async () => {
       setIsLoading(true);
@@ -42,7 +46,7 @@ const ProfileScreen = ({ navigation }) => {
         console.log(data.message);
       }
     })();
-  }, [openLinkPartner]);
+  }, [openLinkPartner, isFocused]);
   return isLoading ? (
     <LoadingScreen />
   ) : (
@@ -73,7 +77,9 @@ const ProfileScreen = ({ navigation }) => {
             <View style={styles.iconSet}>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("UpdateProfile");
+                  navigation.navigate("UpdateProfile", {
+                    userInfos,
+                  });
                 }}
               >
                 <FontAwesome name="pencil-square-o" size={30} color="white" />
@@ -90,7 +96,7 @@ const ProfileScreen = ({ navigation }) => {
             About you
           </Text>
           <View style={styles.ChipContainer}>
-            <Pill content={`${age}yo`} />
+            <Pill content={`${userAge}yo`} />
             <Pill content={userInfos?.gender} />
             <Pill content={userInfos?.sexuality} />
             <Pill
@@ -176,7 +182,7 @@ const ProfileScreen = ({ navigation }) => {
                 All your pictures:
               </Text>
               <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-                {userInfos.pictures.map((item, index) => (
+                {userInfos?.pictures.map((item, index) => (
                   <Image
                     key={index}
                     source={{ uri: item }}

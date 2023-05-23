@@ -19,13 +19,23 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import RadioButtonItem from "../components/RadioButtonItem";
 import { Snackbar } from "react-native-paper";
 import moment from "moment";
+import { useRoute } from "@react-navigation/native";
+import { extractDateInfo } from "../../utils/transformDate";
+import LoadingScreen from "./LoadingScreen";
+import {
+  updatedUserInfos,
+  updateUserPictures,
+} from "../../utils/authenticateUser";
 
-const UpdateProfile = () => {
+import { useSelector } from "react-redux";
+
+const UpdateProfile = ({ navigation, route }) => {
+  const userToken = useSelector((state) => state.user.token);
+  const { userInfos } = route.params;
+
+  const { day, month, year } = extractDateInfo(userInfos?.birthdate);
   //Map through the user pictures
-  const [userPictures, setUserPictures] = useState([
-    "https://images.pexels.com/photos/3656773/pexels-photo-3656773.jpeg",
-    "https://images.pexels.com/photos/2364381/pexels-photo-2364381.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  ]);
+  const [userPictures, setUserPictures] = useState(userInfos?.pictures);
 
   const DATA = [...userPictures, ...Array(6 - userPictures.length).fill(null)];
 
@@ -40,9 +50,9 @@ const UpdateProfile = () => {
   };
 
   //keep track of the birthdate component
-  const [dayOfBirth, setDayOfBirth] = useState("02");
-  const [monthOfBirth, setMonthOfBirth] = useState("11");
-  const [yearOfBirth, setYearOfBirth] = useState("1997");
+  const [dayOfBirth, setDayOfBirth] = useState(day.toString());
+  const [monthOfBirth, setMonthOfBirth] = useState(month.toString());
+  const [yearOfBirth, setYearOfBirth] = useState(year.toString());
   const getDayOfBirth = (value) => {
     setDayOfBirth(value);
   };
@@ -54,13 +64,15 @@ const UpdateProfile = () => {
   };
 
   //Keep track of the job title
-  const [jobTitle, setJobTitle] = useState("");
-  const getJobTitle = (value) => {
-    setJobTitle(value);
+  const [occupation, setOccupation] = useState(userInfos?.occupation);
+  const getOccupation = (value) => {
+    setOccupation(value);
   };
 
   //Keep track of the user description
-  const [userDescription, setUserDescription] = useState("");
+  const [userDescription, setUserDescription] = useState(
+    userInfos?.description
+  );
   const getUserDescription = (value) => {
     setUserDescription(value);
   };
@@ -69,13 +81,13 @@ const UpdateProfile = () => {
   const [genderModalvisible, setGenderModalVisible] = useState(false);
   const showGenderModal = () => setGenderModalVisible(true);
   const hideGenderModal = () => setGenderModalVisible(false);
-  const [gender, setGender] = useState("Woman");
+  const [gender, setGender] = useState(userInfos?.gender);
 
   //Keep track of the Sexuality modal
   const [sexualityModalvisible, setSexualityModalVisible] = useState(false);
   const showSexualityModal = () => setSexualityModalVisible(true);
   const hideSexualityModal = () => setSexualityModalVisible(false);
-  const [sexuality, setSexuality] = useState("Bisexual");
+  const [sexuality, setSexuality] = useState(userInfos?.sexuality);
 
   //Used for set error message in the snack bar
   const [errorMessage, setErrorMessage] = useState("");
@@ -90,7 +102,7 @@ const UpdateProfile = () => {
     setSuccessMessage("");
   };
 
-  const handleUpdateProfile = () => {
+  const handleUpdateProfile = async () => {
     if (userPictures.length < 2) {
       setIsSnackBarVisible(true);
       setErrorMessage("Please select at least 2 pictures");
@@ -124,17 +136,36 @@ const UpdateProfile = () => {
       .month(monthOfBirth - 1)
       .date(dayOfBirth);
 
-    console.log({
-      userPictures,
-      userDateOfBirth,
+    const data = await updatedUserInfos({
+      userToken,
+      birthdate: userDateOfBirth,
       gender,
       sexuality,
-      jobTitle,
-      userDescription,
+      occupation,
+      description: userDescription,
     });
 
-    setIsSnackBarVisible(true);
-    setSuccessMessage("Your profile has been updated successfully");
+    if (data.result === true) {
+      setIsSnackBarVisible(true);
+      setSuccessMessage("Your profile has been updated successfully");
+
+      setTimeout(() => {
+        setIsSnackBarVisible(false);
+        setSuccessMessage("");
+        navigation.goBack();
+      }, 3000);
+    } else {
+      setIsSnackBarVisible(true);
+      setErrorMessage(data.message);
+    }
+
+    updateUserPictures(userToken, userPictures).then((data) => {
+      if (data.result === true) {
+        return;
+      } else {
+        console.log(data.message);
+      }
+    });
   };
 
   return (
@@ -303,10 +334,10 @@ const UpdateProfile = () => {
           <MainTextInput
             title="What's your job title?"
             placeholder="UX Designer"
-            //Send getJobTitle function as prop to get the jobTitle value in the component via inverse data flow
-            getInputValue={getJobTitle}
+            //Send getOccupation function as prop to get the occupation value in the component via inverse data flow
+            getInputValue={getOccupation}
             //Pass the value of the input as prop in order to be able to clear it after form submission
-            value={jobTitle}
+            value={occupation}
           />
         </View>
         <View className="mb-7">
@@ -324,7 +355,7 @@ const UpdateProfile = () => {
               Phone Number are not allowed
             </Text>
             <Text style={globalStyles.textSmall}>
-              {userDescription.length}/150
+              {userDescription?.length || 0}/150
             </Text>
           </View>
         </View>
