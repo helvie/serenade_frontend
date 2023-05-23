@@ -1,4 +1,4 @@
-const url = "http://10.188.38.189:3000";
+const url = "http://192.168.43.62:3000";
 
 const searchUserPartner = async (partnerImaginaryName) => {
   try {

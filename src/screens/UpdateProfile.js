@@ -30,6 +30,7 @@ import {
 import { useSelector } from "react-redux";
 
 const UpdateProfile = ({ navigation, route }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const userToken = useSelector((state) => state.user.token);
   const { userInfos } = route.params;
 
@@ -103,6 +104,7 @@ const UpdateProfile = ({ navigation, route }) => {
   };
 
   const handleUpdateProfile = async () => {
+    setIsLoading(true);
     if (userPictures.length < 2) {
       setIsSnackBarVisible(true);
       setErrorMessage("Please select at least 2 pictures");
@@ -145,7 +147,35 @@ const UpdateProfile = ({ navigation, route }) => {
       description: userDescription,
     });
 
+    // if the user did change his pictures we uploading his new pictures again
+    if (JSON.stringify(userPictures) !== JSON.stringify(userInfos?.pictures)) {
+      const isPicturesUpdated = await updateUserPictures(
+        userToken,
+        userPictures
+      );
+      if (data.result === true && isPicturesUpdated.result === true) {
+        setIsLoading(false);
+        setIsSnackBarVisible(true);
+        setSuccessMessage("Your profile has been updated successfully");
+
+        setTimeout(() => {
+          setIsSnackBarVisible(false);
+          setSuccessMessage("");
+          navigation.goBack();
+        }, 3000);
+        return;
+      } else {
+        setIsLoading(false);
+        setIsSnackBarVisible(true);
+        setErrorMessage(data.message);
+        return;
+      }
+    }
+
+    // if the user did not change his pictures we don't uploading new pictures
+    // we just update the their infos
     if (data.result === true) {
+      setIsLoading(false);
       setIsSnackBarVisible(true);
       setSuccessMessage("Your profile has been updated successfully");
 
@@ -155,20 +185,15 @@ const UpdateProfile = ({ navigation, route }) => {
         navigation.goBack();
       }, 3000);
     } else {
+      setIsLoading(false);
       setIsSnackBarVisible(true);
       setErrorMessage(data.message);
     }
-
-    updateUserPictures(userToken, userPictures).then((data) => {
-      if (data.result === true) {
-        return;
-      } else {
-        console.log(data.message);
-      }
-    });
   };
 
-  return (
+  return isLoading ? (
+    <LoadingScreen />
+  ) : (
     <KeyboardAvoidingView style={globalStyles.screen} className="pt-5 pb-10">
       <ScrollView style={globalStyles.container}>
         <View className="flex-row justify-between items-center">

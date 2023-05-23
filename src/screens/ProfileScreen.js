@@ -99,9 +99,9 @@ const ProfileScreen = ({ navigation }) => {
             <Pill content={`${userAge}yo`} />
             <Pill content={userInfos?.gender} />
             <Pill content={userInfos?.sexuality} />
-            <Pill
-              content={`Your imaginary name: ${userInfos?.imaginaryName}`}
-            />
+            {userInfos?.occupation && <Pill content={userInfos?.occupation} />}
+
+            <Pill content={`Imaginary name: ${userInfos?.imaginaryName}`} />
             <Pill content={userInfos?.email} />
           </View>
         </View>
