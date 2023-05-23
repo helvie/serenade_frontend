@@ -20,8 +20,10 @@ import UserPartner from "../components/UserPartner";
 import { Divider } from "react-native-paper";
 import { useSelector } from "react-redux";
 import { getUserInfos } from "../../utils/authenticateUser";
+import LoadingScreen from "./LoadingScreen";
 
 const HomeScreen = ({ navigation, itsAMatch }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const userToken = useSelector((state) => state.user.token);
 
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -34,21 +36,27 @@ const HomeScreen = ({ navigation, itsAMatch }) => {
   const [userInfos, setUserInfos] = useState(null);
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const data = await getUserInfos(userToken);
       if (data.result === true) {
         setUserInfos(data.user);
+        setIsLoading(false);
       } else {
+        setIsLoading(false);
         console.log(data.message);
       }
     })();
   }, []);
-  return (
+  return isLoading ? (
+    <LoadingScreen />
+  ) : (
     <View style={globalStyles.screen}>
       <View style={globalStyles.container}>
         {/* UserSearch setting modal */}
         <SearchSettings
           settingsOpen={settingsOpen}
           closeSearchSettings={closeSearchSettings}
+          userInfos={userInfos}
         />
 
         {/* Home Header component responsible for opening user search settings */}

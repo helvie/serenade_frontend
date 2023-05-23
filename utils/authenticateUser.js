@@ -124,10 +124,26 @@ const updatedUserInfos = async (userInfos) => {
   }
 };
 
+const saveSearchSettings = async (searchSettings) => {
+  try {
+    const response = await fetch(`${url}/users/saveSearchSettings`, {
+      method: "PUT",
+      headers: { "content-Type": "application/json" },
+      body: JSON.stringify(searchSettings),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   signupUser,
   loginUser,
   updateUserPictures,
   getUserInfos,
   updatedUserInfos,
+  saveSearchSettings,
 };

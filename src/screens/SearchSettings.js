@@ -15,22 +15,37 @@ import globalStyles from "../../utils/globalStyles";
 import { Slider } from "@miblanchard/react-native-slider";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Divider, RadioButton } from "react-native-paper";
+import { RadioButton, Snackbar } from "react-native-paper";
 import RadioButtonItem from "../components/RadioButtonItem";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import ChooseYourCity from "../components/ChooseYourCity";
+import { useSelector } from "react-redux";
+import { saveSearchSettings } from "../../utils/authenticateUser";
 
-const SearchSettings = ({ settingsOpen, closeSearchSettings }) => {
-  const [genderSearched, setGenderSearched] = useState("Woman");
-  const [partnerSexuality, setPartnerSexuality] = useState("Gay");
-  const [userCity, setUserCity] = useState({});
+const SearchSettings = ({ settingsOpen, closeSearchSettings, userInfos }) => {
+  const userToken = useSelector((state) => state.user.token);
+  const [genderSearched, setGenderSearched] = useState("Non-binary");
+  const [partnerSexuality, setPartnerSexuality] = useState(
+    userInfos?.sexuality
+  );
+  const [userCity, setUserCity] = useState(userInfos?.location);
+
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isSnackBarVisible, setIsSnackBarVisible] = useState(false);
+  const dismissSnackBar = () => {
+    setIsSnackBarVisible(false);
+    setErrorMessage("");
+    setSuccessMessage("");
+  };
 
   const getCity = (value) => {
     setUserCity(value);
   };
   //Initial values for the sliders
-  const [ageRange, setAgeRange] = useState([0, 50, 100]);
-  const [maxDistance, setMaxDistance] = useState(30);
+  const [ageRange, setAgeRange] = useState([30, 55]);
+  const [maxDistance, setMaxDistance] = useState([30]);
 
   //Markers for the sliders
   const maxDistanceMarker = () => (
@@ -59,15 +74,36 @@ const SearchSettings = ({ settingsOpen, closeSearchSettings }) => {
     setAgeRange(newValues);
   };
 
-  const handleSaveSearchSettings = () => {
-    console.log({
-      genderSearched,
-      partnerSexuality,
-      maxDistance: maxDistance[0],
-      ageMin: ageRange[0],
-      ageMax: ageRange[1],
-      userCity,
-    });
+  const handleSaveSearchSettings = async () => {
+    const searchSettings = {
+      search: {
+        maxDistance: maxDistance[0],
+        ageMin: ageRange[0],
+        ageMax: ageRange[1],
+        genderLiked: genderSearched,
+        sexualityLiked: partnerSexuality,
+      },
+      location: {
+        city: userCity.name || userCity.city,
+        latitude: userCity.lat || userCity.latitude,
+        longitude: userCity.lng || userCity.longitude,
+      },
+      userToken,
+    };
+
+    const data = await saveSearchSettings(searchSettings);
+    if (data.result === true) {
+      setIsSnackBarVisible(true);
+      setSuccessMessage("Search settings saved successfully");
+      setTimeout(() => {
+        setIsSnackBarVisible(false);
+        setSuccessMessage("");
+        closeSearchSettings();
+      }, 3000);
+    } else {
+      setIsSnackBarVisible(true);
+      setErrorMessage(data.message);
+    }
   };
 
   return (
@@ -80,7 +116,6 @@ const SearchSettings = ({ settingsOpen, closeSearchSettings }) => {
                 <TouchableOpacity
                   onPress={() => {
                     handleSaveSearchSettings();
-                    closeSearchSettings();
                   }}
                   style={{ backgroundColor: globalStyles.primaryColor }}
                   className="rounded-full h-10 w-10 justify-center items-center"
@@ -99,6 +134,22 @@ const SearchSettings = ({ settingsOpen, closeSearchSettings }) => {
                   />
                 </TouchableOpacity>
               </View>
+              {(errorMessage || successMessage) && (
+                <View className="mt-16">
+                  <Snackbar
+                    visible={isSnackBarVisible}
+                    onDismiss={dismissSnackBar}
+                    action={{
+                      label: "Dismiss",
+                    }}
+                    duration={4000}
+                  >
+                    <Text style={globalStyles.mainTextPrimary}>
+                      {errorMessage ? errorMessage : successMessage}
+                    </Text>
+                  </Snackbar>
+                </View>
+              )}
               <View className="mb-7">
                 <Text className="text-center" style={globalStyles.titleText}>
                   Search Settings
@@ -176,7 +227,7 @@ const SearchSettings = ({ settingsOpen, closeSearchSettings }) => {
                   {/* ++++++++++++++++++++++++++++++multi slider here++++++++++++++++++++ */}
                   <View className="w-10/12">
                     <MultiSlider
-                      values={[30, 55]}
+                      values={[ageRange[0], ageRange[1]]}
                       sliderLength={300}
                       onValuesChange={handleAgeRangeChange}
                       min={18}
@@ -253,7 +304,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   modal: {
-    backgroundColor: "rgba(29, 38, 53, 0.85)",
+    backgroundColor: "rgba(29, 38, 53, 0.9)",
   },
   modalContent: {
     flex: 1,
