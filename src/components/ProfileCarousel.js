@@ -25,7 +25,7 @@ const ProfileCarousel = ({ userPictures }) => {
   };
 
   return (
-    <View className="h-2/5 items-center mb-5">
+    <View className="h-72 items-center mb-5">
       <Carousel
         ref={carouselRef}
         sliderWidth={350}

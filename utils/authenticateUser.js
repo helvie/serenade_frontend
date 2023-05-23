@@ -1,4 +1,4 @@
-const url = "http://192.168.43.62:3000";
+const url = "http://192.168.10.200:3000";
 
 const signupUser = async ({
   email,
@@ -139,6 +139,22 @@ const saveSearchSettings = async (searchSettings) => {
   }
 };
 
+const getRecommendations = async (userToken) => {
+  try {
+    const response = await fetch(`${url}/users/recommandations`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ userToken }),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   signupUser,
   loginUser,
@@ -146,4 +162,5 @@ module.exports = {
   getUserInfos,
   updatedUserInfos,
   saveSearchSettings,
+  getRecommendations,
 };

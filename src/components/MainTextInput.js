@@ -30,7 +30,7 @@ const MainTextInput = ({
         textColor={globalStyles.whiteColor}
         onChangeText={(text) => getInputValue(text)}
         value={value}
-        maxLength={150}
+        maxLength={80}
         multiline={multiline}
       />
     </View>

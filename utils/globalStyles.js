@@ -40,6 +40,13 @@ const globalStyles = StyleSheet.create({
     color: "#fff",
   },
 
+  titleTextPrimary: {
+    fontSize: 20,
+    lineHeight: 25,
+    fontFamily: "LabGrostesque-Regular",
+    color: "#ec7955",
+  },
+
   mainText: {
     fontSize: 17,
     lineHeight: 25,
@@ -62,7 +69,7 @@ const globalStyles = StyleSheet.create({
   },
 
   titleTextPink: {
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 25,
     fontFamily: "LabGrostesque-Regular",
     color: "#F5CBCB",

@@ -380,7 +380,7 @@ const UpdateProfile = ({ navigation, route }) => {
               Phone Number are not allowed
             </Text>
             <Text style={globalStyles.textSmall}>
-              {userDescription?.length || 0}/150
+              {userDescription?.length || 0}/80
             </Text>
           </View>
         </View>
