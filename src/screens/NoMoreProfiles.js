@@ -1,15 +1,14 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import globalStyles from "../../utils/globalStyles";
+import { submitBehavior } from "deprecated-react-native-prop-types/DeprecatedTextInputPropTypes";
 
-const NoMoreProfiles = () => {
+const NoMoreProfiles = ({ title, subtitle }) => {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text style={globalStyles.titleTextPink}>
-        Oops! No more profiles found!
-      </Text>
+      <Text style={globalStyles.titleTextPink}>{title}</Text>
       <Text style={{ ...globalStyles.mainText, textAlign: "center" }}>
-        Come back later, love is just around the corner ❤️
+        {subtitle}
       </Text>
       <Image
         style={{ width: 300, height: 300, marginTop: 20 }}

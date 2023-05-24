@@ -191,6 +191,22 @@ const createADislike = async (userToken, dislikedUserToken) => {
   }
 };
 
+const getMatches = async (userToken) => {
+  try {
+    const response = await fetch(`${url}/users/matches`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ userToken }),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   signupUser,
   loginUser,
@@ -201,4 +217,5 @@ module.exports = {
   getRecommendations,
   createALike,
   createADislike,
+  getMatches,
 };

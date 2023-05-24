@@ -1,27 +1,89 @@
 import { View, StyleSheet, ScrollView, Image, Text } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import globalStyles from "../../utils/globalStyles";
 import SwitchSelector from "react-native-switch-selector";
 import CardProfilContainer from "../components/CardProfile";
-import { likes, matches } from "../../fakeData/db";
+import { useIsFocused, useNavigationState } from "@react-navigation/native";
+import { getMatches } from "../../utils/authenticateUser";
+import { useSelector } from "react-redux";
+import LoadingScreen from "./LoadingScreen";
+import NoMoreProfiles from "./NoMoreProfiles";
 
-const MatchesScreen = () => {
+const MatchesScreen = ({ route }) => {
+  const userToken = useSelector((state) => state.user.token);
+  const [isLoading, setIsLoading] = useState(false);
+  const [userMatches, setUserMatches] = useState([]);
   const options = [
     { label: "My Matches", value: "My Matches" },
     { label: "Who likes me", value: "Who likes me" },
   ];
 
+  const [peopleWhoLikesMe, setPeopleWhoLikesMe] = useState([]);
+
+  const isFocused = useIsFocused();
+
+  const navigationState = useNavigationState((state) => state);
+
   const [selectedOption, setSelectedOption] = useState("My Matches");
 
-  const myLikes = likes?.map((data, i) => {
-    return <CardProfilContainer key={i} {...data} />;
+  useEffect(() => {
+    const whoLikesMe = navigationState.routes.find(
+      (route) => route.name === "HomeScreen"
+    )?.params?.whoLikesMe;
+
+    if (whoLikesMe) {
+      // Use the data from home
+      setPeopleWhoLikesMe(whoLikesMe);
+    }
+
+    (async () => {
+      setIsLoading(true);
+      matchData = await getMatches(userToken);
+      if (matchData.result === true) {
+        const matches = matchData.data
+          .map((match) => {
+            if (match.user && match.user.token !== userToken) {
+              return match.user;
+            } else if (match.userLiked && match.userLiked.token !== userToken) {
+              return match.userLiked;
+            }
+            return null; // To exclude the unmatched documents from the result
+          })
+          .filter(Boolean); //The filter(Boolean) is then applied to remove any null values from the resulting array, which represents the filtered matches.
+        setUserMatches(matches);
+        setIsLoading(false);
+      } else {
+        console.log(matchData.message);
+        setIsLoading(false);
+      }
+    })();
+  }, [isFocused]);
+
+  const myLikes = peopleWhoLikesMe?.map((data, i) => {
+    return (
+      <CardProfilContainer
+        key={i}
+        city={data.location.city}
+        picture={data.pictures[0]}
+        {...data}
+      />
+    );
   });
 
-  const myMatches = matches?.map((data, i) => {
-    return <CardProfilContainer key={i} {...data} />;
+  const myMatches = userMatches?.map((data, i) => {
+    return (
+      <CardProfilContainer
+        key={i}
+        city={data.location.city}
+        picture={data.pictures[0]}
+        {...data}
+      />
+    );
   });
 
-  return (
+  return isLoading ? (
+    <LoadingScreen />
+  ) : (
     <View style={globalStyles.screen}>
       <View style={globalStyles.container}>
         <View className="rounded-lg bg-white p-2 mb-7">
@@ -39,18 +101,18 @@ const MatchesScreen = () => {
         </View>
         <View className="flex-1">
           {selectedOption === "Who likes me" && myLikes.length === 0 && (
-            <Text style={globalStyles.titleText} className="text-center">
-              {" "}
-              No one has liked you yet. Keep swiping and see who's interested!
-            </Text>
+            <NoMoreProfiles
+              title="No one has liked you yet"
+              subtitle="Keep swiping and see who's interested!"
+            />
           )}
 
           {selectedOption === "My Matches" && myMatches.length === 0 && (
-            <Text style={globalStyles.titleText} className="text-center">
-              {" "}
-              You don't have any matches yet. Keep swiping and find your perfect
-              match!
-            </Text>
+            <NoMoreProfiles
+              title=" You don't have any matches yet."
+              subtitle="Keep swiping and find your perfect
+             match!"
+            />
           )}
 
           {selectedOption === "My Matches" && myMatches.length > 0 && (

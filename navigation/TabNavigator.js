@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MessagesScreen from "../src/screens/MessagesScreen";
 import HomeScreen from "../src/screens/HomeScreen";
-import MatchScreen from "../src/screens/MatchesScreen";
+import MatchesScreen from "../src/screens/MatchesScreen";
 import React from "react";
 import { Foundation } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -17,7 +17,7 @@ export default function TabNavigator() {
         tabBarIcon: ({ color }) => {
           let icon;
 
-          if (route.name === "MatchScreen") {
+          if (route.name === "MatchesScreen") {
             icon = (
               <MaterialCommunityIcons
                 name="heart-flash"
@@ -47,7 +47,7 @@ export default function TabNavigator() {
       })}
       initialRouteName="HomeScreen"
     >
-      <Tab.Screen name="MatchScreen" component={MatchScreen} />
+      <Tab.Screen name="MatchesScreen" component={MatchesScreen} />
       <Tab.Screen name="HomeScreen" component={HomeScreen} />
       <Tab.Screen name="MessagesScreen" component={MessagesScreen} />
     </Tab.Navigator>

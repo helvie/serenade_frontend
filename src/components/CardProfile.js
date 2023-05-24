@@ -2,11 +2,13 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import React from "react";
 import globalStyles from "../../utils/globalStyles";
+import { truncateCityname } from "../../utils/truncateText";
+import { age } from "../../utils/transformDate";
 
 export default function CardProfilContainer({
-  firstName,
+  name,
   city,
-  age,
+  birthdate,
   gender,
   picture,
 }) {
@@ -24,19 +26,19 @@ export default function CardProfilContainer({
         <View style={styles.iconContainer}>
           <FontAwesome name="user" size={20} color="#ffffff" />
           <Text style={[globalStyles.mainText, { marginLeft: 10 }]}>
-            {firstName}
+            {name}
           </Text>
         </View>
         <View style={styles.iconContainer}>
           <FontAwesome name="map-marker" size={20} color="#ffffff" />
           <Text style={[globalStyles.mainText, { marginLeft: 10 }]}>
-            {city}
+            {truncateCityname(city)}
           </Text>
         </View>
         <View style={styles.iconContainer}>
           <FontAwesome name="id-card" size={20} color="#ffffff" />
           <Text style={[globalStyles.mainText, { marginLeft: 10 }]}>
-            {age} {gender}
+            {age(birthdate)} {gender}
           </Text>
         </View>
       </View>
@@ -58,5 +60,6 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     flexDirection: "row",
+    alignItems: "center",
   },
 });

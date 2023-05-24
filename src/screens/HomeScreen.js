@@ -54,6 +54,7 @@ const HomeScreen = ({ navigation }) => {
 
         if (userData.result === true) {
           setUserInfos(userData.user);
+          navigation.setParams({ whoLikesMe: userData.user.whoLikesMe });
         } else {
           console.log(userData.message);
         }
@@ -93,7 +94,12 @@ const HomeScreen = ({ navigation }) => {
         />
 
         {/* CardStack responsible for swiping cards */}
-        {recommendations.length === 0 && <NoMoreProfiles />}
+        {recommendations.length === 0 && (
+          <NoMoreProfiles
+            title="Oops! No more profiles"
+            subtitle=" Come back later, love is just around the corner❤️"
+          />
+        )}
 
         {recommendations.length > 0 && (
           <CardStack
@@ -133,7 +139,12 @@ const HomeScreen = ({ navigation }) => {
               }
             }}
             renderNoMoreCards={() => {
-              return <NoMoreProfiles />;
+              return (
+                <NoMoreProfiles
+                  title="Oops! No more profiles"
+                  subtitle=" Come back later, love is just around the corner❤️"
+                />
+              );
             }}
           >
             {/* Map trough an array of potential match for our user */}
