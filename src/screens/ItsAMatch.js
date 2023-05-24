@@ -13,8 +13,11 @@ import * as Animatable from "react-native-animatable";
 import ConfettiCannon from "react-native-confetti-cannon";
 import MainButton from "../components/MainButton";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useRoute } from "@react-navigation/native";
 
-const ItsAMatch = () => {
+const ItsAMatch = ({ navigation }) => {
+  const route = useRoute();
+  const matchData = route.params.matchData;
   const image1Position = useRef(new Animated.Value(-50)).current;
   const image2Position = useRef(new Animated.Value(50)).current;
   const [showHeartIcon, setShowHeartIcon] = useState(false);
@@ -77,7 +80,7 @@ const ItsAMatch = () => {
             >
               <Image
                 source={{
-                  uri: "https://images.pexels.com/photos/3808025/pexels-photo-3808025.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                  uri: matchData.user.pictures[0],
                 }}
                 style={{
                   width: 150,
@@ -95,7 +98,7 @@ const ItsAMatch = () => {
             >
               <Image
                 source={{
-                  uri: "https://images.pexels.com/photos/14344662/pexels-photo-14344662.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                  uri: matchData.userLiked.pictures[0],
                 }}
                 style={{
                   width: 150,
@@ -133,7 +136,7 @@ const ItsAMatch = () => {
           <View className="w-11/12 mb-7">
             <MainButton eventHandler={handlePress}>
               <Text style={globalStyles.mainText}>
-                Say Hello to Emma{" "}
+                Say Hello to {matchData.userLiked.name}
                 <MaterialCommunityIcons
                   name="hand-wave"
                   size={24}
@@ -145,7 +148,7 @@ const ItsAMatch = () => {
           <TouchableOpacity
             className="mb-7"
             onPress={() => {
-              console.log("later");
+              navigation.navigate("TabNavigator");
             }}
           >
             <Text style={globalStyles.mainTextPrimary}>

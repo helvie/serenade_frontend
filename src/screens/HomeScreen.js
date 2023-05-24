@@ -21,15 +21,20 @@ import LoadingScreen from "./LoadingScreen";
 import NoMoreProfiles from "./NoMoreProfiles";
 import { age } from "../../utils/transformDate";
 import { truncateCityname } from "../../utils/truncateText";
+import { useIsFocused } from "@react-navigation/native";
 
 const HomeScreen = ({ navigation }) => {
+  const isFocused = useIsFocused();
   const [isLoading, setIsLoading] = useState(false);
   const userToken = useSelector((state) => state.user.token);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [triggerFetchData, setTriggerFetchData] = useState(false);
   const [userInfos, setUserInfos] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
+
   const closeSearchSettings = () => {
     setSettingsOpen(false);
+    setTriggerFetchData(!triggerFetchData);
   };
   const openSearchSettings = () => {
     setSettingsOpen(true);
@@ -66,7 +71,7 @@ const HomeScreen = ({ navigation }) => {
     };
 
     fetchData();
-  }, []);
+  }, [isFocused, triggerFetchData]);
 
   return isLoading ? (
     <LoadingScreen />
@@ -104,10 +109,16 @@ const HomeScreen = ({ navigation }) => {
                 userToken,
                 recommendations[cardIndex].token
               );
+              if (data.result === false) {
+                console.log(data.message);
+                return;
+              }
               if (data.result === true) {
                 return;
-              } else {
-                console.log(data.message);
+              }
+              if (data.isAMatch === true) {
+                navigation.navigate("ItsAMatch", { matchData: data.matchData });
+                return;
               }
             }}
             onSwipedLeft={async (cardIndex) => {
