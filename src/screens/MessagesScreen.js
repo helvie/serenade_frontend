@@ -5,82 +5,97 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import globalStyles from "../../utils/globalStyles";
 import CardMessageContainer from "../components/CardMessageContainer";
+import LoadingScreen from "./LoadingScreen";
+import { getMatches } from "../../utils/authenticateUser";
+import { useIsFocused } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import NoMoreProfiles from "./NoMoreProfiles";
 
 const MessagesScreen = ({ navigation }) => {
-  const photosData1 = [
-    {
-      imageUrl: "https://static.lacapsule.academy/faceup/picture1.jpg",
-      name: "John Doe",
-      message: "Hello there!",
-      time: "10:30 AM",
-    },
-    {
-      imageUrl: "https://static.lacapsule.academy/faceup/picture2.jpg",
-      name: "Jane Smith",
-      message: "Nice to meet you!",
-      time: "11:45 AM",
-    },
-    {
-      imageUrl: "https://static.lacapsule.academy/faceup/picture3.jpg",
-      name: "Michael Johnson",
-      message: "How are you?",
-      time: "02:15 PM",
-    },
-    {
-      imageUrl: "https://static.lacapsule.academy/faceup/picture4.jpg",
-      name: "Emily Brown",
-      message: "Enjoying the day!",
-      time: "05:20 PM",
-    },
-    {
-      imageUrl: "https://static.lacapsule.academy/faceup/picture1.jpg",
-      name: "David Wilson",
-      message: "What are your hobbies?",
-      time: "08:10 PM",
-    },
-    {
-      imageUrl: "https://static.lacapsule.academy/faceup/picture2.jpg",
-      name: "Jane Smith",
-      message: "Nice to meet you!",
-      time: "11:45 AM",
-    },
-    {
-      imageUrl: "https://static.lacapsule.academy/faceup/picture3.jpg",
-      name: "Michael Johnson",
-      message: "How are you?",
-      time: "02:15 PM",
-    },
-    {
-      imageUrl: "https://static.lacapsule.academy/faceup/picture4.jpg",
-      name: "Emily Brown",
-      message: "Enjoying the day!",
-      time: "05:20 PM",
-    },
-  ];
+  const userToken = useSelector((state) => state.user.token);
 
-  const message = photosData1.map((data, i) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [matchesInfos, setMatchesInfos] = useState([]);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      const matchData = await getMatches(userToken);
+      if (matchData.result === true) {
+        const matches = matchData.data
+          .map((match) => {
+            if (match.user && match.user.token !== userToken) {
+              return {
+                matchId: match._id,
+                matchedUser: match.user,
+                messages: match.messages,
+              };
+            } else if (match.userLiked && match.userLiked.token !== userToken) {
+              return {
+                matchId: match._id,
+                matchedUser: match.userLiked,
+                messages: match.messages,
+              };
+            }
+            return null; // To exclude the unmatched documents from the result
+          })
+          .filter(Boolean); //The filter(Boolean) is then applied to remove any null values from the resulting array, which represents the filtered matches.
+        setMatchesInfos(matches);
+        setIsLoading(false);
+      } else {
+        console.log(matchData.message);
+        setIsLoading(false);
+      }
+    })();
+  }, [isFocused]);
+
+  const messages = matchesInfos.map((match, i) => {
+    // If there are no messages, the last message content and hour are set to default values
+    let lastMessageContent = `Say something to ${match.matchedUser.name}...`;
+    let lastMessagehour = "💖";
+    let moment = "";
+
+    // if there is any messages between our users we set the last message content and hour
+    if (match.messages.length > 0) {
+      lastMessageContent = match.messages[match.messages.length - 1].content;
+      const lastMessageDate = new Date(
+        match.messages[match.messages.length - 1].date
+      );
+      lastMessagehour =
+        lastMessageDate.getHours() - 12 + ":" + lastMessageDate.getMinutes();
+
+      // We set the hour to the correct format
+      if (lastMessageDate.getHours() > 12) {
+        moment = " pm";
+      } else {
+        moment = " am";
+      }
+    }
     return (
       <TouchableOpacity
         key={i}
         onPress={() => {
-          navigation.navigate("ChatScreen");
+          navigation.navigate("ChatScreen", { match: match });
         }}
       >
         <CardMessageContainer
           key={i}
-          image={data.imageUrl}
-          name={data.name}
-          message={data.message}
-          time={data.time}
+          image={match.matchedUser.pictures[0]}
+          name={match.matchedUser.name}
+          message={lastMessageContent}
+          time={`${lastMessagehour} ${moment}`}
         />
       </TouchableOpacity>
     );
   });
 
-  return (
+  return isLoading ? (
+    <LoadingScreen />
+  ) : (
     <View style={globalStyles.screen}>
       <View className="mt-10">
         <Text style={globalStyles.titleText} className="mb-4">
@@ -91,13 +106,21 @@ const MessagesScreen = ({ navigation }) => {
         </Text>
       </View>
       <View style={styles.horizontalLine} />
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <View style={globalStyles.container}>
-          <View>
-            <View style={styles.profilcontainer}>{message}</View>
-          </View>
-        </View>
-      </ScrollView>
+      <View style={globalStyles.container}>
+        {/* If there are no messages, we display a message */}
+        {messages.length > 0 && (
+          <ScrollView contentContainerStyle={styles.scrollViewContent}>
+            {messages}
+          </ScrollView>
+        )}
+
+        {messages.length === 0 && (
+          <NoMoreProfiles
+            title="Oops no messages yet 📨"
+            subtitle="Keep swiping and you'll eventually find shoes to suit your feet."
+          />
+        )}
+      </View>
     </View>
   );
 };
@@ -112,14 +135,6 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     flexGrow: 1,
-  },
-
-  profilcontainer: {
-    width: "100%",
-    height: "100%",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
   },
 });
 

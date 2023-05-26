@@ -40,9 +40,15 @@ const ItsAMatch = ({ navigation }) => {
 
     slideImages();
   }, []);
-  //slideImages();
   handlePress = () => {
-    console.log("Pressed");
+    // define a new object to pass to chat screen
+    const dataFormattedForChat = {
+      matchId: matchData._id,
+      matchedUser: matchData.userLiked,
+      messages: matchData.messages,
+    };
+
+    navigation.navigate("ChatScreen", { match: dataFormattedForChat });
   };
   return (
     <View style={globalStyles.screen}>

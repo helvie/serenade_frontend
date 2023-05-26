@@ -1,22 +1,25 @@
-import { View, StyleSheet, ScrollView, Image, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import globalStyles from "../../utils/globalStyles";
-import SwitchSelector from "react-native-switch-selector";
 import CardProfilContainer from "../components/CardProfile";
 import { useIsFocused, useNavigationState } from "@react-navigation/native";
 import { getMatches } from "../../utils/authenticateUser";
 import { useSelector } from "react-redux";
 import LoadingScreen from "./LoadingScreen";
 import NoMoreProfiles from "./NoMoreProfiles";
+import CustomSwitchSelector from "../components/CustomSwitchSelector";
 
-const MatchesScreen = ({ route }) => {
+const MatchesScreen = ({ navigation }) => {
   const userToken = useSelector((state) => state.user.token);
   const [isLoading, setIsLoading] = useState(false);
   const [userMatches, setUserMatches] = useState([]);
-  const options = [
-    { label: "My Matches", value: "My Matches" },
-    { label: "Who likes me", value: "Who likes me" },
-  ];
 
   const [peopleWhoLikesMe, setPeopleWhoLikesMe] = useState([]);
 
@@ -26,7 +29,12 @@ const MatchesScreen = ({ route }) => {
 
   const [selectedOption, setSelectedOption] = useState("My Matches");
 
+  const onOptionChange = (option) => {
+    setSelectedOption(option);
+  };
+
   useEffect(() => {
+    // get a data from one screen in the same TabNavigator
     const whoLikesMe = navigationState.routes.find(
       (route) => route.name === "HomeScreen"
     )?.params?.whoLikesMe;
@@ -43,9 +51,17 @@ const MatchesScreen = ({ route }) => {
         const matches = matchData.data
           .map((match) => {
             if (match.user && match.user.token !== userToken) {
-              return match.user;
+              return {
+                matchId: match._id,
+                matchedUser: match.user,
+                messages: match.messages,
+              };
             } else if (match.userLiked && match.userLiked.token !== userToken) {
-              return match.userLiked;
+              return {
+                matchId: match._id,
+                matchedUser: match.userLiked,
+                messages: match.messages,
+              };
             }
             return null; // To exclude the unmatched documents from the result
           })
@@ -61,23 +77,45 @@ const MatchesScreen = ({ route }) => {
 
   const myLikes = peopleWhoLikesMe?.map((data, i) => {
     return (
-      <CardProfilContainer
+      <TouchableOpacity
         key={i}
-        city={data.location.city}
-        picture={data.pictures[0]}
-        {...data}
-      />
+        className="w-[45%] m-5 flex-row justify-center align-center"
+        onPress={() => {
+          navigation.navigate("DisplayUserInfos", { data });
+        }}
+      >
+        <CardProfilContainer
+          city={data.location.city}
+          picture={data.pictures[0]}
+          {...data}
+        />
+      </TouchableOpacity>
     );
   });
 
   const myMatches = userMatches?.map((data, i) => {
     return (
-      <CardProfilContainer
+      <TouchableOpacity
         key={i}
-        city={data.location.city}
-        picture={data.pictures[0]}
-        {...data}
-      />
+        className="w-[45%] mr-2 flex-row justify-center align-center"
+        onPress={() => {
+          navigation.navigate("DisplayUserInfos", {
+            data: data.matchedUser,
+            matchId: data.matchId,
+            messages: data.messages,
+            itsAMatch: true,
+          });
+        }}
+      >
+        <CardProfilContainer
+          key={i}
+          name={data.matchedUser.name}
+          picture={data.matchedUser.pictures[0]}
+          city={data.matchedUser.location.city}
+          birthdate={data.matchedUser.birthdate}
+          gender={data.matchedUser.gender}
+        />
+      </TouchableOpacity>
     );
   });
 
@@ -85,31 +123,19 @@ const MatchesScreen = ({ route }) => {
     <LoadingScreen />
   ) : (
     <View style={globalStyles.screen}>
-      <View style={globalStyles.container}>
-        <View className="rounded-lg bg-white p-2 mb-7">
-          <SwitchSelector
-            options={options}
-            initial={0}
-            onPress={(value) => {
-              setSelectedOption(value);
-            }}
-            buttonColor="#ec7955"
-            borderRadius={8}
-            textStyle={globalStyles.mainTextBlack}
-            selectedTextStyle={globalStyles.mainText}
-          />
-        </View>
-        <View className="flex-1">
+      <View style={globalStyles.container} className="my-6">
+        <CustomSwitchSelector onOptionChange={onOptionChange} />
+        <View className="flex-1 mt-5">
           {selectedOption === "Who likes me" && myLikes.length === 0 && (
             <NoMoreProfiles
-              title="No one has liked you yet"
+              title="No one has liked you yet ❤️"
               subtitle="Keep swiping and see who's interested!"
             />
           )}
 
           {selectedOption === "My Matches" && myMatches.length === 0 && (
             <NoMoreProfiles
-              title=" You don't have any matches yet."
+              title=" You don't have any matches yet ⚡"
               subtitle="Keep swiping and find your perfect
              match!"
             />
@@ -150,7 +176,7 @@ const styles = StyleSheet.create({
   profilcontainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 0,
   },
 });

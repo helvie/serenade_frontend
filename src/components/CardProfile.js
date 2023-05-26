@@ -5,18 +5,12 @@ import globalStyles from "../../utils/globalStyles";
 import { truncateCityname } from "../../utils/truncateText";
 import { age } from "../../utils/transformDate";
 
-export default function CardProfilContainer({
-  name,
-  city,
-  birthdate,
-  gender,
-  picture,
-}) {
+export default function CardProfilContainer(props) {
   return (
-    <TouchableOpacity style={styles.cardContainer}>
+    <View style={styles.cardContainer}>
       <Image
         source={{
-          uri: picture,
+          uri: props.picture,
         }}
         style={styles.image}
         className="rounded-t-md"
@@ -26,29 +20,29 @@ export default function CardProfilContainer({
         <View style={styles.iconContainer}>
           <FontAwesome name="user" size={20} color="#ffffff" />
           <Text style={[globalStyles.mainText, { marginLeft: 10 }]}>
-            {name}
+            {props.name}
           </Text>
         </View>
         <View style={styles.iconContainer}>
           <FontAwesome name="map-marker" size={20} color="#ffffff" />
           <Text style={[globalStyles.mainText, { marginLeft: 10 }]}>
-            {truncateCityname(city)}
+            {truncateCityname(props.city)}
           </Text>
         </View>
         <View style={styles.iconContainer}>
           <FontAwesome name="id-card" size={20} color="#ffffff" />
           <Text style={[globalStyles.mainText, { marginLeft: 10 }]}>
-            {age(birthdate)} {gender}
+            {age(props.birthdate)} {props.gender}
           </Text>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   cardContainer: {
-    width: "47%",
+    width: "100%",
     margin: 5,
   },
   image: {

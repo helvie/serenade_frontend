@@ -13,6 +13,7 @@ import ProfileScreen from "../src/screens/ProfileScreen";
 import ChatScreen from "../src/screens/ChatScreen";
 import UpdateProfile from "../src/screens/UpdateProfile";
 import ItsAMatch from "../src/screens/ItsAMatch";
+import DisplayUserInfos from "../src/screens/DisplayUserInfos";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +41,7 @@ const StackNavigator = () => {
         />
       </Stack.Group>
       <Stack.Group>
+        <Stack.Screen name="DisplayUserInfos" component={DisplayUserInfos} />
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
         <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
       </Stack.Group>

@@ -4,7 +4,7 @@ import globalStyles from "../../utils/globalStyles";
 
 const UserPartner = ({ name, picture }) => {
   return (
-    <TouchableOpacity className="mb-4">
+    <View className="mb-4">
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Image
           source={
@@ -16,7 +16,7 @@ const UserPartner = ({ name, picture }) => {
         />
         <Text style={[globalStyles.mainText, { marginRight: 10 }]}>{name}</Text>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 

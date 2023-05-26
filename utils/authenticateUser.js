@@ -207,6 +207,22 @@ const getMatches = async (userToken) => {
   }
 };
 
+const postANewMessage = async ({ matchId, messageData }) => {
+  try {
+    const response = await fetch(`${url}/users/newMessage`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ matchId: matchId, messageData: messageData }),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   signupUser,
   loginUser,
@@ -218,4 +234,5 @@ module.exports = {
   createALike,
   createADislike,
   getMatches,
+  postANewMessage,
 };

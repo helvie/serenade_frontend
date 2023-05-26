@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Image,
+  Keyboard,
 } from "react-native";
 import { useState, useRef, useEffect } from "react";
 import React from "react";
@@ -16,160 +16,137 @@ import ChatSenderMessage from "../components/ChatSenderMessage";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Header from "../components/Header";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useRoute } from "@react-navigation/native";
+import { postANewMessage } from "../../utils/authenticateUser";
+import { useSelector } from "react-redux";
+import io from "socket.io-client/dist/socket.io";
+
+const socket = io("http://192.168.43.62:3000/");
 
 const ChatScreen = () => {
-  // Initialization calculation scrollview height for display the end
-  //-------------------------------------------------------------
+  //Take advantage of the useRoute hook to get the match data from the MessagesScreen
+  const route = useRoute();
+  // Get the match data from the messages screen (the user clicked on a match)
+  const matchData = route.params.match;
+
+  const userToken = useSelector((state) => state.user.token);
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+
+  // Initialisation of the messages
+  const [messages, setMessages] = useState(matchData.messages);
 
   const scrollViewRef = useRef();
-  const [isScrollViewAtEnd, setIsScrollViewAtEnd] = useState(false);
+
   const [messageText, setMessageText] = useState("");
 
-  //-------------------------------------------------------------
+  // Join the appropriate room between the two users
+  socket.emit("joinRoom", matchData.matchId);
 
-  const [messages, setMessages] = useState([
-    {
-      firstname: "Alice",
-      message: "Salut Bob, comment vas-tu ?",
-      date: "2022-04-10T14:30:00Z",
-    },
-    {
-      firstname: "Bob",
-      message: "Salut Alice, ça va bien, merci ! Et toi ?",
-      date: "2022-04-10T14:32:00Z",
-    },
-    {
-      firstname: "Alice",
-      message: "Je vais bien aussi, merci. ",
-      date: "2022-04-10T14:35:00Z",
-    },
-    {
-      firstname: "Alice",
-      message: "Quoi de neuf ?",
-      date: "2022-04-10T14:35:00Z",
-    },
-    {
-      firstname: "Bob",
-      message: "Pas grand-chose, et toi ?",
-      date: "2022-04-10T14:38:00Z",
-    },
-    {
-      firstname: "Alice",
-      message: "Rien de spécial non plus. Tu as des projets pour ce week-end ?",
-      date: "2022-04-10T14:40:00Z",
-    },
-    {
-      firstname: "Bob",
-      message:
-        "Pas vraiment, je pense que je vais rester à la maison. Et toi ?",
-      date: "2022-04-11T14:42:00Z",
-    },
-    {
-      firstname: "Alice",
-      message:
-        "Je vais probablement sortir avec des amis samedi soir. Tu veux te joindre à nous ?",
-      date: "2022-04-20T14:45:00Z",
-    },
-    {
-      firstname: "Bob",
-      message: "Je ne sais pas encore, je te tiendrai au courant. Tu vas où ?",
-      date: "2022-04-20T14:48:00Z",
-    },
-    {
-      firstname: "Alice",
-      message: "On va au restaurant italien près de chez moi, à 20h.",
-      date: "2022-04-20T14:50:00Z",
-    },
-    {
-      firstname: "Alice",
-      message: "On va au restaurant italien près de chez moi, à 20h.",
-      date: "2022-04-20T14:50:00Z",
-    },
-    {
-      firstname: "Bob",
-      message: "OK, je te tiens au courant. À plus tard !",
-      date: "2022-04-20T14:52:00Z",
-    },
-    {
-      firstname: "Alice",
-      message: "À plus tard !",
-      date: "2022-04-20T14:53:00Z",
-    },
-    {
-      firstname: "Bob",
-      message:
-        "Salut Alice, finalement je ne pourrai pas venir ce soir. Désolé.",
-      date: "2022-04-21T10:00:00Z",
-    },
-    {
-      firstname: "Alice",
-      message: "Pas de soucis, une prochaine fois alors !",
-      date: "2022-04-21T10:02:00Z",
-    },
-    {
-      firstname: "Bob",
-      message: "Oui, absolument. Tu me raconteras comment c'était.",
-      date: "2022-04-21T10:15:00Z",
-    },
-  ]);
-
-  // Diplay end of scrollview at the first opening
-  //-------------------------------------------------------------
-
-  useEffect(() => {
-    if (isScrollViewAtEnd) {
+  // Scroll to the end of the ScrollView
+  const scrollToBottom = () => {
+    if (scrollViewRef.current) {
       scrollViewRef.current.scrollToEnd({ animated: false });
     }
-  }, [isScrollViewAtEnd]);
-
-  const handleScrollViewLayout = () => {
-    setIsScrollViewAtEnd(true);
   };
 
-  //--------------------------------------------------------------
-  const avatarImage =
-    "https://images.pexels.com/photos/1382726/pexels-photo-1382726.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+  // Scroll to the end when messages change or component mounts
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isKeyboardVisible]);
 
-  // Send messages
-  //--------------------------------------------------------------
+  // Scroll to the end when the keyboard appears
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setIsKeyboardVisible(true);
+      }
+    );
 
-  const handleSendMessage = () => {
-    console.log(messageText);
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setIsKeyboardVisible(false);
+      }
+    );
+
+    // Clean up listeners
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
+  // push new message received from socketIo in our messages state
+  useEffect(() => {
+    socket.on("messageReceived", (data) => {
+      setMessages((previousMessages) => [...previousMessages, data]);
+    });
+  }, [socket]);
+
+  const handleSendMessage = async () => {
+    const messageData = {
+      sender: userToken,
+      content: messageText,
+      date: new Date(),
+    };
+
+    // If the message is empty, we don't send it
+    if (messageText.trim() === "") return;
+
     setMessageText("");
+
+    const data = await postANewMessage({
+      matchId: matchData.matchId,
+      messageData: messageData,
+    });
+
+    if (data.result === true) {
+      socket.emit("messageSend", {
+        messageData,
+        matchId: matchData.matchId,
+      });
+      setMessages((previousMessages) => [...previousMessages, messageData]);
+      return;
+    } else {
+      console.log(data.message);
+    }
   };
 
-  // Dislike
-  //--------------------------------------------------------------
-
+  // Dismatch the user (delete the match collection in db and redirect to home)
   const handleDismatch = () => {
-    console.log("handleDismatch");
+    alert(
+      "Sorry this is an MVP we didn't have time to do this feature, at least you can continue to speak with your crush 😂😂"
+    );
   };
 
   // Initialisation messages views
-  //--------------------------------------------------------------
-
   const allMessages = messages.map((data, i) => {
     const date = new Date(data.date);
-    const hours = date.getHours() + ":" + date.getMinutes() + " am";
+    let moment = "";
+    if (date.getHours() > 12) {
+      moment = " pm";
+    } else {
+      moment = " am";
+    }
+    const time = date.getHours() + ":" + date.getMinutes() + `${moment}`;
 
-    if (data.firstname == "Alice") {
+    if (data.sender !== userToken) {
       return (
         <ChatRecipientMessage
           key={i}
-          date={hours}
-          text={data.message}
+          date={time}
+          text={data.content}
           connected={true}
           size={40}
-          avatarImage={avatarImage}
+          avatarImage={matchData.matchedUser.pictures[0]}
           avatarDisplay={true}
         />
       );
     } else {
-      return <ChatSenderMessage key={i} date={hours} text={data.message} />;
+      return <ChatSenderMessage key={i} date={time} text={data.content} />;
     }
   });
-
-  //--------------------------------------------------------------
 
   return (
     <View style={globalStyles.screen}>
@@ -183,7 +160,7 @@ const ChatScreen = () => {
             <UserAvatar
               connected={true}
               size={70}
-              avatarImage={avatarImage}
+              avatarImage={matchData.matchedUser.pictures[0]}
               avatarDisplay={true}
             />
           </View>
@@ -201,21 +178,23 @@ const ChatScreen = () => {
           </View>
         </View>
 
-        <Text style={styles.headerText}>Elisabeth</Text>
+        <Text style={styles.headerText}>{matchData.matchedUser.name}</Text>
         <View style={styles.headerBorder} />
       </View>
 
       <ScrollView
         style={styles.scroll}
-        className="p-6"
         ref={scrollViewRef}
-        onLayout={handleScrollViewLayout}
-        contentContainerStyle={styles.scrollContentContainer}
+        contentContainerStyle={[
+          isKeyboardVisible ? { paddingBottom: 130 } : { paddingBottom: 30 },
+          styles.scrollContentContainer,
+        ]}
+        className="px-6 pt-6"
       >
         {allMessages}
       </ScrollView>
 
-      <View keyboardShouldPersistTaps="handled" style={styles.sendContainer}>
+      <View style={styles.sendContainer}>
         <View style={styles.inputContainer}>
           <FontAwesome
             name="paperclip"
@@ -243,8 +222,6 @@ const ChatScreen = () => {
 
 const styles = StyleSheet.create({
   // header
-  //----------------------------------------
-
   topHeader: {
     width: "100%",
   },
@@ -278,8 +255,6 @@ const styles = StyleSheet.create({
   },
 
   // messages content
-  //----------------------------------------
-
   scroll: {
     flex: 1,
   },
@@ -287,12 +262,9 @@ const styles = StyleSheet.create({
   scrollContentContainer: {
     flexGrow: 1,
     justifyContent: "flex-end",
-    paddingBottom: 30,
   },
 
   // send messages container
-  //----------------------------------------
-
   sendContainer: {
     width: "100%",
     justifyContent: "center",

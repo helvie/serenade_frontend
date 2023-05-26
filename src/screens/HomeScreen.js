@@ -104,13 +104,14 @@ const HomeScreen = ({ navigation }) => {
         {recommendations.length > 0 && (
           <CardStack
             className="flex-1"
-            verticalSwipe={false}
+            verticalSwipe={true}
+            horizontalSwipe={false}
             cardContainerStyle={{ width: "100%", height: "100%" }}
             ref={(swiper) => {
               this.swiper = swiper;
             }}
             horizontalThreshold={50}
-            onSwipedRight={async (cardIndex) => {
+            onSwipedTop={async (cardIndex) => {
               const data = await createALike(
                 userToken,
                 recommendations[cardIndex].token
@@ -123,11 +124,13 @@ const HomeScreen = ({ navigation }) => {
                 return;
               }
               if (data.isAMatch === true) {
-                navigation.navigate("ItsAMatch", { matchData: data.matchData });
+                navigation.navigate("ItsAMatch", {
+                  matchData: data.matchData,
+                });
                 return;
               }
             }}
-            onSwipedLeft={async (cardIndex) => {
+            onSwipedBottom={async (cardIndex) => {
               const data = await createADislike(
                 userToken,
                 recommendations[cardIndex].token
@@ -227,7 +230,7 @@ const HomeScreen = ({ navigation }) => {
                         <View>
                           <TouchableOpacity
                             onPress={() => {
-                              swiper.swipeRight();
+                              swiper.swipeTop();
                             }}
                             className="w-10 h-10 mb-4 bg-white rounded-full justify-center items-center"
                           >
@@ -238,7 +241,7 @@ const HomeScreen = ({ navigation }) => {
                             />
                           </TouchableOpacity>
                           <TouchableOpacity
-                            onPress={() => swiper.swipeLeft()}
+                            onPress={() => swiper.swipeBottom()}
                             className="w-10 h-10 bg-white rounded-full justify-center items-center"
                           >
                             <Feather
@@ -312,18 +315,26 @@ const HomeScreen = ({ navigation }) => {
                               In relationship with:
                             </Text>
                             {user.myRelationships.map((item, index) => (
-                              <UserPartner
+                              <TouchableOpacity
                                 key={index}
-                                name={item.name}
-                                picture={item.pictures[0]}
-                              />
+                                onPress={() => {
+                                  navigation.navigate("DisplayUserInfos", {
+                                    data: item,
+                                  });
+                                }}
+                              >
+                                <UserPartner
+                                  name={item.name}
+                                  picture={item.pictures[0]}
+                                />
+                              </TouchableOpacity>
                             ))}
                           </>
                         ))}
                     </View>
 
                     <Divider
-                      className="mb-3"
+                      className="my-3"
                       style={{
                         color: "white",
                         height: 0.5,
