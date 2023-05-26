@@ -10,6 +10,7 @@ import StackNavigator from "./navigation/StackNavigator";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import user from "./reducers/User";
+import { View } from "react-native";
 
 const store = configureStore({
   reducer: { user },
@@ -39,7 +40,7 @@ export default function App() {
           backgroundColor={globalStyles.appBackgroundColor}
           style="light"
         />
-        <SafeAreaView
+        <View
           className="flex-1"
           onLayout={onLayoutRootView}
           style={{ backgroundColor: globalStyles.appBackgroundColor }}
@@ -47,7 +48,7 @@ export default function App() {
           <NavigationContainer>
             <StackNavigator />
           </NavigationContainer>
-        </SafeAreaView>
+        </View>
       </PaperProvider>
     </Provider>
   );

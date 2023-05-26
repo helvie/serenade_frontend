@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Keyboard,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useState, useRef, useEffect } from "react";
 import React from "react";
@@ -20,8 +21,9 @@ import { useRoute } from "@react-navigation/native";
 import { postANewMessage } from "../../utils/authenticateUser";
 import { useSelector } from "react-redux";
 import io from "socket.io-client/dist/socket.io";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-const socket = io("http://192.168.43.62:3000/");
+const socket = io("http://192.168.10.171:3000/");
 
 const ChatScreen = () => {
   //Take advantage of the useRoute hook to get the match data from the MessagesScreen
@@ -149,7 +151,10 @@ const ChatScreen = () => {
   });
 
   return (
-    <View style={globalStyles.screen}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ ...globalStyles.screen, paddingTop: 30 }}
+    >
       <View style={styles.header}>
         <View style={styles.topHeader}>
           <View className="w-1/6">
@@ -216,7 +221,7 @@ const ChatScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

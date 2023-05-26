@@ -56,7 +56,7 @@ const ProfileScreen = ({ navigation }) => {
           openLinkPartner={openLinkPartner}
           closeLinkPartner={closeLinkPartner}
         />
-        <View style={{ paddingHorizontal: 25 }}>
+        <View style={{ paddingHorizontal: 25, paddingTop: 45 }}>
           {/* profile picture and settings icon formatting */}
           <Header />
           <View style={styles.element}>

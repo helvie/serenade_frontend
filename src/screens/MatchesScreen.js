@@ -79,7 +79,7 @@ const MatchesScreen = ({ navigation }) => {
     return (
       <TouchableOpacity
         key={i}
-        className="w-[45%] m-5 flex-row justify-center align-center"
+        className="w-[45%] mr-2 flex-row justify-center align-center"
         onPress={() => {
           navigation.navigate("DisplayUserInfos", { data });
         }}
@@ -122,7 +122,7 @@ const MatchesScreen = ({ navigation }) => {
   return isLoading ? (
     <LoadingScreen />
   ) : (
-    <View style={globalStyles.screen}>
+    <View style={{ ...globalStyles.screen, paddingTop: 15 }}>
       <View style={globalStyles.container} className="my-6">
         <CustomSwitchSelector onOptionChange={onOptionChange} />
         <View className="flex-1 mt-5">

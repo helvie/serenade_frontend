@@ -7,10 +7,16 @@ import { Foundation } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import globalStyles from "../utils/globalStyles";
+import { Platform } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
+  const tabBarHeight = Platform.select({
+    ios: 80,
+    android: 60,
+    default: 80,
+  });
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -41,6 +47,9 @@ export default function TabNavigator() {
         tabBarActiveTintColor: globalStyles.iconActiveColor,
         tabBarInactiveTintColor: globalStyles.iconInactiveColor,
         headerShown: false,
+        tabBarStyle: {
+          height: tabBarHeight,
+        },
         tabBarOptions: {
           showLabel: false, // Hide the labels of the tabs
         },
