@@ -1,4 +1,4 @@
-const url = "http://192.168.43.62:3000";
+const url = "https://serenade.onrender.com";
 
 const signupUser = async ({
   email,
