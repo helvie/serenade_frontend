@@ -1,6 +1,6 @@
 import { Image, View, Text, StyleSheet } from "react-native";
 import React from "react";
-import globalStyles from "../../utils/globalStyles";
+import { FontAwesome } from "@expo/vector-icons";
 
 const UserAvatar = (props) => {
   // // Initialisation of connected status
@@ -14,15 +14,19 @@ const UserAvatar = (props) => {
       {displayAvatar && (
         <>
           <View style={isConnected && [styles.connect]}></View>
-          <Image
-            style={[styles.avatarImage, { width: size, height: size }]}
-            className="rounded-full"
-            source={
-              avatarImage
-                ? { uri: avatarImage }
-                : require(`../../assets/images/avatar.jpg`)
-            }
-          />
+          {avatarImage ? (
+            <>
+              <Image
+                style={[styles.avatarImage, { width: size, height: size }]}
+                className="rounded-full"
+                source={{ uri: avatarImage }}
+              />
+            </>
+          ) : (
+            <>
+              <FontAwesome name="user-circle" size={30} color="white" />
+            </>
+          )}
         </>
       )}
     </View>

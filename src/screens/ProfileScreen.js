@@ -21,6 +21,7 @@ import { getUserInfos } from "../../utils/authenticateUser";
 import { age } from "../../utils/transformDate";
 import LoadingScreen from "./LoadingScreen";
 import { useIsFocused } from "@react-navigation/native";
+import { set } from "date-fns";
 
 const ProfileScreen = ({ navigation }) => {
   const userToken = useSelector((state) => state.user.token);
@@ -30,9 +31,11 @@ const ProfileScreen = ({ navigation }) => {
   const [userInfos, setUserInfos] = useState(null);
   const userAge = age(userInfos?.birthdate) ?? undefined;
   const [isLoading, setIsLoading] = useState(false);
+  const [triggerGetUserInfos, setTriggerGetUserInfos] = useState(false);
 
   const closeLinkPartner = () => {
     setOpenLinkPartner(false);
+    setTriggerGetUserInfos(!triggerGetUserInfos);
   };
 
   useEffect(() => {
@@ -46,7 +49,7 @@ const ProfileScreen = ({ navigation }) => {
         console.log(data.message);
       }
     })();
-  }, [openLinkPartner, isFocused]);
+  }, [triggerGetUserInfos, isFocused]);
   return isLoading ? (
     <LoadingScreen />
   ) : (

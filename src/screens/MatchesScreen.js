@@ -84,11 +84,7 @@ const MatchesScreen = ({ navigation }) => {
           navigation.navigate("DisplayUserInfos", { data });
         }}
       >
-        <CardProfilContainer
-          city={data.location.city}
-          picture={data.pictures[0]}
-          {...data}
-        />
+        <CardProfilContainer picture={data.pictures[0]} {...data} />
       </TouchableOpacity>
     );
   });
@@ -111,7 +107,6 @@ const MatchesScreen = ({ navigation }) => {
           key={i}
           name={data.matchedUser.name}
           picture={data.matchedUser.pictures[0]}
-          city={data.matchedUser.location.city}
           birthdate={data.matchedUser.birthdate}
           gender={data.matchedUser.gender}
         />

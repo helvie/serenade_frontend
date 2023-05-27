@@ -23,12 +23,7 @@ export default function CardProfilContainer(props) {
             {props.name}
           </Text>
         </View>
-        <View style={styles.iconContainer}>
-          <FontAwesome name="map-marker" size={20} color="#ffffff" />
-          <Text style={[globalStyles.mainText, { marginLeft: 10 }]}>
-            {truncateCityname(props.city)}
-          </Text>
-        </View>
+
         <View style={styles.iconContainer}>
           <FontAwesome name="id-card" size={20} color="#ffffff" />
           <Text style={[globalStyles.mainText, { marginLeft: 10 }]}>
