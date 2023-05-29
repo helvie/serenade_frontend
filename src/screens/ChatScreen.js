@@ -21,7 +21,7 @@ import { postANewMessage } from "../../utils/authenticateUser";
 import { useSelector } from "react-redux";
 import io from "socket.io-client/dist/socket.io";
 
-const socket = io("http://192.168.43.62:3000/");
+const socket = io("http://192.168.10.125:3000/");
 
 const ChatScreen = () => {
   //Take advantage of the useRoute hook to get the match data from the MessagesScreen
