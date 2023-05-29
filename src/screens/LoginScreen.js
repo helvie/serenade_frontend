@@ -117,6 +117,7 @@ const LoginScreen = ({ navigation }) => {
                 </Snackbar>
               </View>
             )}
+
             <MainButton
               //MainButton as an eventHandler prop responsible to fire a function in his parent component
               // This is also inverse data flow

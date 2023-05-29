@@ -4,9 +4,8 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  Dimensions,
   KeyboardAvoidingView,
-  Keyboard,
+  Platform,
   Text,
   ScrollView,
 } from "react-native";
@@ -106,13 +105,22 @@ const SearchSettings = ({ settingsOpen, closeSearchSettings, userInfos }) => {
     }
   };
 
+  const mtValue = Platform.select({
+    ios: 45,
+    android: 16,
+    default: 16,
+  });
+
   return (
     <Modal visible={settingsOpen} transparent={true} animationType="slide">
       <TouchableOpacity style={styles.container} activeOpacity={1}>
         <KeyboardAvoidingView style={{ flex: 1 }}>
           <ScrollView style={styles.modal}>
             <View style={styles.modalContent}>
-              <View className="flex-row justify-between items-center mb-5">
+              <View
+                className="flex-row justify-between items-center mb-5"
+                style={{ marginTop: mtValue }}
+              >
                 <TouchableOpacity
                   onPress={() => {
                     handleSaveSearchSettings();

@@ -1,4 +1,4 @@
-const url = "http://192.168.10.125:3000";
+const url = "https://serenade.onrender.com";
 
 const signupUser = async ({
   email,
@@ -26,7 +26,7 @@ const signupUser = async ({
     };
 
     // Make the fetch request with the FormData object as request body
-    const response = await fetch(`${url}/users/signup`, {
+    const response = await fetch(`${url}/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,7 +50,7 @@ const loginUser = async ({ email, password }) => {
     };
 
     // Make the fetch request with the FormData object as request body
-    const response = await fetch(`${url}/users/signin`, {
+    const response = await fetch(`${url}/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -157,7 +157,7 @@ const getRecommendations = async (userToken) => {
 
 const createALike = async (userToken, likedUserToken) => {
   try {
-    const response = await fetch(`${url}/users/action/like`, {
+    const response = await fetch(`${url}/action/like`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -175,7 +175,7 @@ const createALike = async (userToken, likedUserToken) => {
 
 const createADislike = async (userToken, dislikedUserToken) => {
   try {
-    const response = await fetch(`${url}/users/action/dislike`, {
+    const response = await fetch(`${url}/action/dislike`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -209,7 +209,7 @@ const getMatches = async (userToken) => {
 
 const postANewMessage = async ({ matchId, messageData }) => {
   try {
-    const response = await fetch(`${url}/users/newMessage`, {
+    const response = await fetch(`${url}/action/newMessage`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
